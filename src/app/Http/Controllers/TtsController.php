@@ -22,14 +22,16 @@ class TtsController extends Controller
         ]);
 
         // 1) 台本を保存
+
         $script = Script::create([
             'user_id' => $request->user()->id,
             'text'    => $data['text'],
             'title'   => $data['title'] ?? null,
         ]);
 
-        // 2) 音声レコードを queued で作成
+        // 2) 音声レコードを queued で作成（user_idもセット）
         $voice = Voice::create([
+            'user_id'   => $request->user()->id,
             'script_id' => $script->id,
             'status'    => 'queued',
             'provider'  => 'elevenlabs',

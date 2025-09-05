@@ -45,12 +45,12 @@ class GenerateVoiceJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $voice = Voice::find($this->voiceId);
+    $voice = Voice::find($this->voiceId);
         if (!$voice) {
             return;
         }
 
-        $voice->update(['status' => 'processing']);
+    $voice->update(['status' => 'processing']);
 
         $script  = $voice->script;
         $apiKey  = config('services.elevenlabs.key') ?? env('ELEVENLABS_API_KEY');

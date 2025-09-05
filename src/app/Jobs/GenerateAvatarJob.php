@@ -86,8 +86,9 @@ class GenerateAvatarJob implements ShouldQueue
             "dimension" => ["width" => 1280, "height" => 720],
         ];
 
-        // DBレコード作成
+        // DBレコード作成（user_idもセット）
         $video = AvatarVideo::create([
+            'user_id'  => $voice->user_id,
             'voice_id' => $voice->id,
             'status'   => 'processing',
             'provider' => 'heygen',

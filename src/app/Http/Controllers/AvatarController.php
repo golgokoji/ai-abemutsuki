@@ -14,7 +14,7 @@ class AvatarController extends Controller
             return back()->with('status', '音声が未生成です。まずは音声をsucceededまで完了してください。');
         }
 
-        GenerateAvatarJob::dispatch($voice->id);
+    GenerateAvatarJob::dispatch($voice->id);
 
         return back()->with('status', 'アバター動画生成をキューに投入しました。少し後に再読込してください。');
     }
