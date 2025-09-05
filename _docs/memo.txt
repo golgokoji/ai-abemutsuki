@@ -1,0 +1,3 @@
+
+キューを起動
+php artisan queue:work

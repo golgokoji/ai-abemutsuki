@@ -1,0 +1,81 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
+
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TtsController;
+use App\Http\Controllers\AvatarController;
+
+/*
+|--------------------------------------------------------------------------
+| Public routes
+|--------------------------------------------------------------------------
+*/
+Route::get('/', fn () => view('welcome'))->name('home');
+
+/*
+|--------------------------------------------------------------------------
+| Google OAuth (Socialite)
+|--------------------------------------------------------------------------
+| ※ Google Cloud Console 側のリダイレクトURIは
+|    http://localhost:8080/auth/google/callback
+|    に合わせてください。
+*/
+Route::get('/auth/google/redirect', function () {
+    // 開発中は stateless() のほうがトラブル少ない場合があります
+    return Socialite::driver('google')->redirect();
+})->name('google.login');
+
+Route::get('/auth/google/callback', function () {
+    // 必要に応じて ->stateless()
+    $googleUser = Socialite::driver('google')->user();
+
+    $user = \App\Models\User::updateOrCreate(
+        ['email' => $googleUser->getEmail()],
+        [
+            'name'     => $googleUser->getName() ?: ($googleUser->getNickname() ?: 'Google User'),
+            'password' => bcrypt(str()->random(32)), // ダミー
+        ]
+    );
+
+    Auth::login($user);
+    return redirect()->route('dashboard');
+})->name('google.callback');
+
+/*
+|--------------------------------------------------------------------------
+| Authenticated routes
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'verified'])->group(function () {
+
+    // Breeze 既定のダッシュボード
+    Route::get('/dashboard', fn () => view('dashboard'))->name('dashboard');
+    Route::get('/voices', [\App\Http\Controllers\VoiceController::class, 'index'])->name('voices.index');
+
+    // プロフィール（Breeze）
+    Route::get('/profile',  [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile',[ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile',[ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // TTS フォーム & 送信
+    Route::get('/tts',  [TtsController::class, 'form'])->name('tts.form');
+    Route::post('/tts', [TtsController::class, 'submit'])->name('tts.submit');
+
+    // HeyGen アバター生成
+    Route::post('/avatar/{voice}', [AvatarController::class, 'generate'])->name('avatar.generate');
+});
+
+use App\Http\Controllers\HeygenTestController;
+
+Route::get('/heygen-test', [HeygenTestController::class, 'create']);
+
+
+/*
+|--------------------------------------------------------------------------
+| Breeze が生成する auth ルートを最後に読み込み
+|--------------------------------------------------------------------------
+*/
+require __DIR__.'/auth.php';
