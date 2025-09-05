@@ -46,4 +46,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function voices()
+    {
+        return $this->hasMany(Voice::class);
+    }
+
+    public function avatarVideos()
+    {
+        return $this->hasMany(AvatarVideo::class);
+    }
 }

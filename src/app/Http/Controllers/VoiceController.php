@@ -12,7 +12,11 @@ class VoiceController extends Controller
      */
     public function index()
     {
-        $voices = Voice::with('script')->latest()->paginate(5); // 1ページ5件
+        $user = auth()->user();
+        $voices = Voice::with('script')
+            ->where('user_id', $user->id)
+            ->latest()
+            ->paginate(5);
         return view('voices.index', compact('voices'));
     }
 }

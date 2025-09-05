@@ -10,7 +10,7 @@ class AvatarVideo extends Model
     use HasFactory;
 
     protected $fillable = [
-        'voice_id','status','provider','video_id','file_url','provider_response'
+        'user_id','voice_id','status','provider','video_id','file_url','provider_response'
     ];
 
     protected $casts = [
@@ -20,5 +20,10 @@ class AvatarVideo extends Model
     public function voice()
     {
         return $this->belongsTo(\App\Models\Voice::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

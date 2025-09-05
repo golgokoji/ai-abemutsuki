@@ -10,6 +10,7 @@ class Voice extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'script_id',
         'status',
         'provider',
@@ -25,5 +26,10 @@ class Voice extends Model
     public function script()
     {
         return $this->belongsTo(Script::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
