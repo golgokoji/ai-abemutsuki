@@ -1,3 +1,6 @@
 
 キューを起動
 php artisan queue:work
+
+
+docker compose exec node sh -lc 'rm -f public/hot && npm run dev -- --host=0.0.0.0'
