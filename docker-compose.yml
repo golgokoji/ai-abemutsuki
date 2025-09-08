@@ -103,6 +103,8 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ./src:/usr/src/app
+    ports:
+      - "5173:5173"
     entrypoint: ["sh","-c","npm install && npm run dev -- --host"]
     restart: unless-stopped
 
