@@ -70,8 +70,11 @@ class GenerateVoiceJob implements ShouldQueue
                 'model_id'       => $modelId,
                 'text'           => $script->text,
                 'voice_settings' => [
-                    'stability'        => 0.5,
-                    'similarity_boost' => 0.75,
+                    'stability'        => 0.4,   // 安定性スライダー位置
+                    'similarity_boost' => 0.8,   // 類似性スライダー位置
+                    'style'            => 0.0,   // スタイル誇張なし
+                    'use_speaker_boost'=> true,  // スピーカーブーストON
+                    'speed'            => 0.84,    // 遅め設定（目盛り位置に応じて調整）
                 ],
             ]);
 

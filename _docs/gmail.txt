@@ -1,0 +1,189 @@
+ヘッダ情報
+
+Delivered-To: golgokoji@gmail.com
+Received: by 2002:a5d:64e4:0:b0:3eb:fce4:cd9d with SMTP id g4csp559969wri;
+        Tue, 16 Sep 2025 17:25:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=4; AJvYcCUVxydRlPzYAQp0uSd4jldD91gkzVrh9VCW17NbsxqvSiJTKTnXiKEUXL+wDUhxI9tkPosKbZy9uEE=@gmail.com
+X-Received: by 2002:a17:906:1850:b0:b04:8d6c:507a with SMTP id a640c23a62f3a-b1bbebb8e26mr30588466b.50.1758068723013;
+        Tue, 16 Sep 2025 17:25:23 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1758068723; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=ER+GcnsWT6ZiYdEILc8xajxXJAPE0jfiYF4/1GowFHPoPXV69gqdXtUVDN88dm2yzG
+         hlegsI36VTas0Qrs+SSwmy0x147/3YW+I8daRDLtRu9RlL5eUgOYnqLxDVC8Z6aSzdp7
+         7yqe+s1RFDXA/dRWYGvKSX7Dqg/UeQwO6webOZGwawv1cMO+S24KCww+FnSyGVEm4Gbh
+         BKdA2cQ3aB8UyXq3SYqaU8iPbsWjLjOKXMdehzxpKNuNzCW0bzVfiEV+tEtrlyEGRveP
+         rDeDAHG8e7FjWt1T1vmyM+wVHtdOeqTBhuPGQ+mYiqvdUKncjL84nSi96MQCdXMuMU7+
+         AXjg==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=date:message-id:content-transfer-encoding:mime-version:from:subject
+         :to:dkim-signature:delivered-to;
+        bh=MEFGzE5TnXSkJjY7sHyTyGToRleU75TOjs38nywUSik=;
+        fh=1rmKIrzUuPRR5E5/4vUQ54g5boEOzAXtYjCMTtYV9cg=;
+        b=Klq2A5qKZK7Xdp2rR+edrPQm85GeKgy0htfUdxuUE4lWrMCLPDgegNTm8cWVZ0Elfg
+         LMv6ltNBCf6ZCvulYTFKlhFerbcp2u4J/6hyTY9lQUaHmtJYbidyjhIVr9mvemAwuMuJ
+         15u55uxh5p5cj2MU8zm2Ii8gINE6nYat014lLVbhDZce9cg6FnJNMx1ZzJuRze+sXB7G
+         uGwvQdVuyDX37nUSJDrZ78lDbHnabS+yAsxhF56pMaccyi94b1StQgCwCj/2zvem9kH4
+         7F25bUv4jo8CZt7hdNQWof+rvixu0oUGjwdZs4kGlaXrc8T2ovJGrjrR11R8xMvuXwcI
+         x7kg==;
+        dara=google.com
+ARC-Authentication-Results: i=3; mx.google.com;
+       dkim=pass header.i=@infotop.jp header.s=bricks header.b=i+ObVhBl;
+       arc=pass (i=2 spf=pass spfdomain=infotop.jp dkim=pass dkdomain=infotop.jp dmarc=pass fromdomain=infotop.jp);
+       spf=pass (google.com: domain of spprt.dacoon+caf_=golgokoji=gmail.com@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom="spprt.dacoon+caf_=golgokoji=gmail.com@gmail.com";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=infotop.jp;
+       dara=pass header.i=@gmail.com
+Return-Path: <spprt.dacoon+caf_=golgokoji=gmail.com@gmail.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id a640c23a62f3a-b07b30e69f7sor702718366b.3.2025.09.16.17.25.22
+        for <golgokoji@gmail.com>
+        (Google Transport Security);
+        Tue, 16 Sep 2025 17:25:22 -0700 (PDT)
+Received-SPF: pass (google.com: domain of spprt.dacoon+caf_=golgokoji=gmail.com@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@infotop.jp header.s=bricks header.b=i+ObVhBl;
+       arc=pass (i=2 spf=pass spfdomain=infotop.jp dkim=pass dkdomain=infotop.jp dmarc=pass fromdomain=infotop.jp);
+       spf=pass (google.com: domain of spprt.dacoon+caf_=golgokoji=gmail.com@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom="spprt.dacoon+caf_=golgokoji=gmail.com@gmail.com";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=infotop.jp;
+       dara=pass header.i=@gmail.com
+ARC-Seal: i=2; a=rsa-sha256; t=1758068722; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=Bu1PX1IJVgS1Sq+Ceh2BnoPX+NMSVhWviWEW/a13eX1mHHAXTPTb3RysdgBQ1VPomd
+         DgyfNswF9x4tVKgyplgO74AdVreCBAhmy2HDUFEIbPSEdVMvkAPC3CER6PCqR093ReiE
+         N7CUvCgURwn5czKcJRHQ8F22mw41IMINgscMAkJY0tHlJCJoIma/lKEt+fe6bABllBFq
+         cAEiUdUY/zpbyg9ewPXRejPw4Jduq3/2bFAtlIzo8ptlxwExLpNoEsxdFfKQTLzriSqE
+         qzq+EAqtgHl0f3CMR4Ha0nyi3cEeFYghPFJz3yvNFhKuReGLwHZ+r/t9EtO3PGzRng6p
+         iT8w==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=date:message-id:content-transfer-encoding:mime-version:from:subject
+         :to:dkim-signature:delivered-to;
+        bh=MEFGzE5TnXSkJjY7sHyTyGToRleU75TOjs38nywUSik=;
+        fh=1rmKIrzUuPRR5E5/4vUQ54g5boEOzAXtYjCMTtYV9cg=;
+        b=FVfexERrT/odTwne17XlZfRXB100cCCrFtXx2snbz3uyC3tq3NUA9mdqKT/dWQcxC/
+         2/Nk+wJwA+X4F7dmCdMr1MAA1gzvOHF3//2firWPhR6/I4SwgP22yerSCcxTloUe0+YY
+         znWgLcKO6KRYi5srU0ZJM9qrabnM1X5bxti8a3rMPUbSpDq1ThJFXr1WALS77ArLE6rU
+         4tAwNMX6Daj6FW4d5PEaLNl4vI9omwvbj/gD25oWL475fvIjvblWzBJGRGzWtaDENpFZ
+         qJi6kagWkYo7JzZmK94GTCB4yDZWR6oKVHpfQXpOgJScPjq7zRUdphFxG3D2AkYmrESp
+         8PCg==;
+        dara=google.com
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@infotop.jp header.s=bricks header.b=i+ObVhBl;
+       spf=pass (google.com: domain of root@infotop.jp designates 203.104.100.199 as permitted sender) smtp.mailfrom=root@infotop.jp;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=infotop.jp
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758068722; x=1758673522;
+        h=date:message-id:content-transfer-encoding:mime-version:from:subject
+         :to:dkim-signature:delivered-to:x-forwarded-for:x-forwarded-to
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MEFGzE5TnXSkJjY7sHyTyGToRleU75TOjs38nywUSik=;
+        b=lemRNy/GsD8yA2nRz41OCXQTFt8qVqT36Af8evxPxkAZWCDZv4K6CJG5XXPFre/TvV
+         C/Y9Fxuk7dToca2Uuy03wn5yD+JlOyrAzHPFmVHqaX8eX7QK/PEDlFqI8YUNW8ZO43Zm
+         6wqie33j6ZA+MX5A0AGSTVkvMpDFI8xaEwsXaTNzj5zNAKr52WeOxQLrDaFPccXHObmT
+         6NeN0tNs3ijvE8+pZ4veBTIcdBFJRQWgae5Rk3uCWJYuL2qcf8hZNlxIgDHTfp/UeTii
+         vXjIMd9M2hhcMEEYzUujHU7fcROZOfhcdaX7VYZ8Y2wbbiPwgL7GQ+WIrF88oR97CHxN
+         Btow==
+X-Forwarded-Encrypted: i=2; AJvYcCVsz2zL92zCB8ZI4vnZA1W2L+cXj1YmgCoL/u+fDpFUkbbmy/U9IsHBvoBVBawBh3qDvst57hM+HK4=@gmail.com
+X-Gm-Message-State: AOJu0Yzg+0FM7SAtEpcJF7IPgDcSfEy02O7PDawSRxrQHfbMMCROVWgD bWfw03bqoIge9gSX2ubmAislPG0Di0yVpZqovA30WbVkEI3dfT2F3SD9/x9l0IoKmXKLcfVbGrV 6MDpB/KVYvLhZ5sNSYf9QvVpH9Fp4HKk8b3G3j77ppGeKK8qruuIxZ8wMvsu7Ow==
+X-Received: by 2002:a17:907:3da9:b0:b0c:b51b:821e with SMTP id a640c23a62f3a-b1bb5e571e4mr43193466b.9.1758068722513;
+        Tue, 16 Sep 2025 17:25:22 -0700 (PDT)
+X-Forwarded-To: golgokoji@gmail.com
+X-Forwarded-For: spprt.dacoon@gmail.com golgokoji@gmail.com
+Delivered-To: spprt.dacoon@gmail.com
+Received: by 2002:a17:906:6293:b0:afe:988:67f3 with SMTP id sn19csp651098ejc;
+        Tue, 16 Sep 2025 17:25:20 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGDfg+GoJ9N+61akNi1NXMg4LEdHYQAfzbg6aPM5YoJLPJNkIFK3HOobRpARFDNr0qOszB3
+X-Received: by 2002:a05:6a00:1989:b0:772:270f:58ab with SMTP id d2e1a72fcca58-77bf926bfd7mr212577b3a.15.1758068720589;
+        Tue, 16 Sep 2025 17:25:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1758068720; cv=none;
+        d=google.com; s=arc-20240605;
+        b=aqF4ig34TBvhZ+WVRpxd1cA09bOdB0Cw+JZVCxEDsqyKbrl72pmRGPevCJrTv3KPAv
+         p0TGKk/tA202/4OVw86pMlropCwPrVA39EPR2vVaHPej9FbI6zauJtg7gWc05RSmd7Q1
+         IzTFRUzz0Hf44xXIOldmoFuIlcvA2chZtNvYCy7V+CAjDGHXNHHhx7OsJM7h1udVepfs
+         No8V4gCfp4DktPyO4masWAet8qwV5DP5ArpvhoUD647H1WYpXnmuQuDRK9eNXt9oQNSA
+         9spBqnf3zJ3R7XCjW2gi1Si3kCWMz3nhJd9gHGMdfTjRJHjQqIYXGGcw33E/zTgGOS3i
+         WLXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=date:message-id:content-transfer-encoding:mime-version:from:subject
+         :to:dkim-signature;
+        bh=MEFGzE5TnXSkJjY7sHyTyGToRleU75TOjs38nywUSik=;
+        fh=CQgWbpoDjKn5SX3S8NzciZZVYxj2BOoCOd39th10Qz8=;
+        b=DetP5peOK4rG8mAIZ7Yci9LSdK27MAfhoMqLnPtBR1VYPMnWDT6xCOvZcuXDBb/g57
+         BHXN4EnsvYyC72NETjEiOAohF9mN3PTtd3s1goZNinae7qTN0nRXKPYbMv7DXWJZozp8
+         Cq4/EoJShh/qybKhAGVNaaY44l3qie2a1zR3wlqD7EsBF4dzudtMLV2X4EwBrjWJ3j3I
+         XCC0Q1+h99nVxxw91Z9pRl07Z7bvN3uVvglv5oUU/R6xjd37pcFVJqjuMQj+QvN3IIRH
+         Nc4zfzi9E+s41uOI+zJAQw9oeVo8ePf52uWJCCaVrAnvD0yJSDIO6v8EDDK1tfmGqmKB
+         ohbw==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@infotop.jp header.s=bricks header.b=i+ObVhBl;
+       spf=pass (google.com: domain of root@infotop.jp designates 203.104.100.199 as permitted sender) smtp.mailfrom=root@infotop.jp;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=infotop.jp
+Return-Path: <root@infotop.jp>
+Received: from ywiztcyz.t528.data-hotel.net (ywiztcyz.t528.data-hotel.net. [203.104.100.199])
+        by mx.google.com with ESMTPS id d2e1a72fcca58-776140c70d9si9098847b3a.546.2025.09.16.17.25.20
+        for <spprt.dacoon@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Sep 2025 17:25:20 -0700 (PDT)
+Received-SPF: pass (google.com: domain of root@infotop.jp designates 203.104.100.199 as permitted sender) client-ip=203.104.100.199;
+Received: from 4b-h03-d5.data-hotel.net (5b-b08-c5.data-hotel.net [203.104.100.192]) by 5b-b08-c5.data-hotel.net (Postfix) with ESMTP id 46607401BEACA for <spprt.dacoon@gmail.com>; Wed, 17 Sep 2025 09:25:19 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=infotop.jp; s=bricks; t=1758068719; bh=CKBUD4ICyhWmi2gkPfF3q44Ti0MvIo3tkD5fkfA3C+o=; h=Subject:From:Date; b=i+ObVhBl97lt4qOeb+A+zV6JKxLHwaZSbf1WRbmvggyYjE5fNWupflt34Zn4TeGtF
+	 HxJ1fWzxpqyOOISu9q+I1KzwSAyFvk7BBXMudsPM+CMy1Z4Hni6iFBRNkdCQGyQMVR
+	 Nqrt9jbaYIYsJqr2Nc6VK8/7OxC8Qyjpy+TSD8W0=
+Received: by 4b-h03-d5.data-hotel.net (Postfix, from userid 65534) id 40C99E040CCC; Wed, 17 Sep 2025 09:25:19 +0900 (JST)
+To: spprt.dacoon@gmail.com
+Subject: 2回目のクレジット決済が完了いたしました。
+From: "インフォトップ" <mail3@infotop.jp>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-2022-JP
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250917002519.40C99E040CCC@4b-h03-d5.data-hotel.net>
+Date: Wed, 17 Sep 2025 09:25:19 +0900 (JST)
+
+
+本文情報
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+　 インフォプレナー様　  09月分決済完了のお知らせ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+インフォプレナー名：安部夢都生
+
+注文ＩＤ　　　　　：9993846
+商品名　　　　　　：あべラボ
+月額　　　　　　　：9800円（税込）
+初月　　　　　　　：9800円（税込）
+商品種別　　　　　：月額課金システム
+
+以下のお客様の09月分の（あべラボ）の決済がございましたので、
+お知らせいたします。
+
+決済日　　　　：2025/09/17
+
+購入者名　　　：吉村祐志
+ふりがな　　　：よしむらゆうし
+郵便番号　　　：108-0075
+都道府県　　　：東京都
+住    所　　　　：港区港南
+それ以降の住所：4-6-5-606
+電話番号　　　：090-9144-0622
+PCメール　　　：yushi2519@yahoo.co.jp
+携帯メール　　：
+
+詳細はインフォプレナー管理画面でご確認下さい。
+
+※購入者より問い合わせ・返品交換・キャンセル等あった場合は
+必ず、インフォプレナー自身で紳士的に対応下さい。
+
+
+━━　INFOTOP.JP　━━━━━━━━━━━━━━━━━━━━━━━━━
+◆ＵＲＬ　　　：https://infotop.jp/
+◆お問合せ　　：https://contact.infotop.jp/
+◆ガイドライン：https://info.infotop.jp/guidline.php
+◆利用規約　　：https://info.infotop.jp/regulation.php
+◆ＦＡＱ　　　：https://faq.infotop.jp/
+◆マニュアル　：https://manual.infotop.jp/
+◆個人情報保護方針：https://info.infotop.jp/privacy.php
+◆特定商取引法に関する表記：https://info.infotop.jp/tokusho.php
+
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
