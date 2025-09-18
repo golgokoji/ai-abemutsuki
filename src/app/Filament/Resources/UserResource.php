@@ -23,8 +23,9 @@ use Filament\Tables\Columns\IconColumn;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'ユーザー管理';
+    protected static ?string $navigationGroup = 'ユーザー・会員管理';
 
 public static function form(Form $form): Form
 {
@@ -39,6 +40,12 @@ public static function form(Form $form): Form
             ->email()
             ->required()
             ->unique(ignoreRecord: true),
+
+        TextInput::make('password')
+            ->label('パスワード')
+            ->minLength(8)
+            ->dehydrateStateUsing(fn($state) => $state ? $state : null)
+            ->dehydrated(fn($state) => filled($state)),
 
         Toggle::make('is_admin')
             ->label('管理者'),
@@ -62,12 +69,7 @@ public static function table(Table $table): Table
         ])
         ->filters([])
         ->actions([
-            Tables\Actions\ViewAction::make(),
-            Tables\Actions\EditAction::make(),
             Tables\Actions\DeleteAction::make(),
-        ])
-        ->bulkActions([
-            Tables\Actions\DeleteBulkAction::make(),
         ]);
 }
 
@@ -83,6 +85,7 @@ public static function table(Table $table): Table
         return [
             'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/create'),
+            'view' => Pages\ViewUser::route('/{record}'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
