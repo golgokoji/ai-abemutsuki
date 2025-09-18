@@ -64,21 +64,15 @@ public static function table(Table $table): Table
             TextColumn::make('name')->label('名前')->searchable()->sortable(),
             TextColumn::make('email')->label('メール')->searchable(),
             IconColumn::make('is_admin')->label('管理者')->boolean()->sortable(),
-            TextColumn::make('credit_balance')->label('クレジット残高')->sortable(),
-            TextColumn::make('created_at')->label('作成日')->dateTime()->sortable(),
-        ])
-        ->filters([])
-        ->actions([
-            Tables\Actions\DeleteAction::make(),
         ]);
 }
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
+        public static function getRelations(): array
+        {
+            return [
+                \App\Filament\Resources\UserResource\RelationManagers\CreditHistoriesRelationManager::class,
+            ];
+        }
 
     public static function getPages(): array
     {

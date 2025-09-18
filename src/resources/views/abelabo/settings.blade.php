@@ -24,6 +24,9 @@
                         <div class="mb-4">
                             <label for="abelabo_email" class="block font-medium text-sm text-gray-700">メールアドレス</label>
                             <input id="abelabo_email" type="email" name="abelabo_email" value="{{ old('abelabo_email', isset($abelabo) ? $abelabo->email : '') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+                            @error('abelabo_email')
+                                <div class="text-red-600 mt-1">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-4">
                             <label for="abelabo_tel" class="block font-medium text-sm text-gray-700">電話番号</label>
