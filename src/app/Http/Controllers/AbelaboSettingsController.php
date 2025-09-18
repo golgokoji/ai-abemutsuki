@@ -22,8 +22,16 @@ class AbelaboSettingsController extends Controller
         $user = Auth::user();
         $validated = $request->validate([
             'abelabo_name' => 'required|string|max:255',
-            'abelabo_email' => 'required|email|max:255',
+            'abelabo_email' => [
+                'required',
+                'email',
+                'max:255',
+                // 他ユーザーと重複しないように
+                'unique:abelabo_user_settings,email,' . $user->id . ',user_id',
+            ],
             'abelabo_tel' => 'nullable|string|max:32',
+        ], [
+            'abelabo_email.unique' => 'このメールアドレスは使えません。',
         ]);
         $abelabo = AbelaboUserSetting::updateOrCreate(
             ['user_id' => $user->id],

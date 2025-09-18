@@ -22,13 +22,5 @@ class ViewUser extends ViewRecord
         ];
     }
 
-    // ▼ここを Header から Footer に変更
-    protected function getFooterWidgets(): array
-    {
-        return [
-            CreditHistoryTableWidget::make([
-                'userId' => $this->record->id,
-            ]),
-        ];
-    }
+    // ...existing code...
 }
