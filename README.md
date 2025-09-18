@@ -142,3 +142,7 @@ loop until completed/failed or timeout:
 - S3 公開は **`voices/*` と `videos/*` のみに限定**。他パスは非公開。  
 - APIキーは DB に保存するが、**ログへは出さない**。  
 - 例外時のレスポンス保存は **個人情報/秘匿値のマスク** を考慮。
+
+
+
+
