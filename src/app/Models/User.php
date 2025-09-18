@@ -14,6 +14,13 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    public function creditHistories()
+    {
+        return $this->hasMany(CreditHistory::class)->orderByDesc('created_at');
+    }
+    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasFactory, Notifiable;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -23,7 +30,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'heygen_api_key',
     ];
 
     /**

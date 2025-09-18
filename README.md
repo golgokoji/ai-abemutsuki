@@ -1,3 +1,7 @@
+# Artisanの実行について
+マイグレーションなどのコマンドはdocker上で実行します。
+その前提でコマンドを教えて下さい。
+
 # AI-abemutsuki — Copilot 引き継ぎメモ
 
 ## 0. 目的（Done の定義）
@@ -146,3 +150,139 @@ loop until completed/failed or timeout:
 
 
 
+## Blade レイアウト方針（Copilot遵守ルール）
+
+**全てのページビューは `<x-app-layout>` を必ず使う。**  
+`@extends('layouts.app')` / `@section` / `@yield` ベースや、ページ側での `$slot` 直接利用は禁止。
+
+### ✅ 基本ルール
+- ページごとの Blade は **必ず** 下記の雛形で開始する：
+  ```blade
+  {{-- resources/views/<feature>/index.blade.php など --}}
+  <x-app-layout>
+      <x-slot name="header">
+          <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+              {{ __('ページタイトル') }}
+          </h2>
+      </x-slot>
+
+      {{-- ページ本体 --}}
+      <div class="py-6">
+          <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+              <!-- ここにコンテンツ -->
+          </div>
+      </div>
+  </x-app-layout>
+
+
+# Filament v3 CreateRecord ページでのフォームカスタマイズ方法
+
+## 背景
+- Filament v3 では、Resource ページのフォームは **`CreateRecord` / `EditRecord` の `form()` メソッド**を通じて構築されます。
+- ページクラスに `getFormSchema()` を定義しても、Resource ページでは呼び出されません。  
+  （`getFormSchema()` は通常の `Page` クラス用の仕組みです）
+
+そのため、**ページごとにフォーム項目を完全にカスタマイズしたい場合は `form()` をオーバーライドする必要があります。**
+
+---
+
+## 実装例
+
+```php
+use Filament\Forms;
+use Filament\Forms\Form;
+use Filament\Resources\Pages\CreateRecord;
+
+class CreateCreditHistory extends CreateRecord
+{
+    protected static string $resource = CreditHistoryResource::class;
+
+    public function form(Form $form): Form
+    {
+        return $form->schema([
+            Forms\Components\TextInput::make('credits')
+                ->label('クレジット数')
+                ->numeric()
+                ->required(),
+
+            Forms\Components\TextInput::make('amount')
+                ->label('金額')
+                ->numeric()
+                ->required(),
+
+            Forms\Components\Textarea::make('note')
+                ->label('備考')
+                ->rows(3),
+        ]);
+    }
+}
+
+
+# プロジェクト構成について
+
+## アプリケーションルート
+本プロジェクトでは、通常の Laravel 構成と異なり **`src/` 配下**がアプリケーションルートとして設定されています。  
+そのため、以下のようになります。
+
+- アプリケーション本体: `src/app/`
+- 設定ファイル: `src/config/`
+- ルーティング: `src/routes/`
+- マイグレーション / シーダー: `src/database/`
+- ビュー: `src/resources/views/`
+
+## View のパス解決
+Laravel の `view.php` 設定により、ビューは `resource_path('views')` を基準に解決されます。  
+本プロジェクトでは `base_path = src/` となっているため、実際には以下のディレクトリが参照されます。
+
+src/resources/views/
+
+
+## Filament のカスタムビュー
+Filament も Laravel のビュー解決に従います。  
+そのため、Filament 用のカスタムビューを配置する際は以下のようにします。
+
+例:
+src/resources/views/filament/raw-html.blade.php
+
+
+これにより、`view('filament.raw-html')` で参照できます。
+
+---
+
+## 注意点
+- プロジェクト直下 (`/resources`) に存在するビューは参照されません。  
+- 必ず **`src/resources/views`** 以下に配置してください。
+
+
+# Filament v3 フォームボタンのラベル変更方法
+
+## CreateRecord ページのボタンラベル
+
+Filament v3 の `CreateRecord` ページでは、デフォルトで以下のボタンが表示されます。
+
+- Create
+- Cancel
+
+これらのボタンは **アクションオブジェクト (`Actions\Action`)** として生成されます。  
+そのため、v2 のような `getCreateFormActionLabel()` / `getCancelFormActionLabel()` は呼ばれません。
+
+---
+
+## 方法 1: 最小限のラベル変更
+
+```php
+use Filament\Actions;
+use Filament\Resources\Pages\CreateRecord;
+
+class CreateCreditHistory extends CreateRecord
+{
+    protected static string $resource = CreditHistoriesResource::class;
+
+    protected function getFormActions(): array
+    {
+        return [
+            $this->getCreateFormAction()->label('クレジット追加'),
+            $this->getCancelFormAction()->label('戻る'),
+        ];
+    }
+}
