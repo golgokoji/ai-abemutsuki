@@ -18,3 +18,6 @@ Homestead.yaml
 /.vscode/
 /.history/
 /src/secrets/
+_docs/*.json
+*.credentials.json
+*.service-account.json
