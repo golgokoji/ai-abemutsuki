@@ -63,6 +63,7 @@ public static function table(Table $table): Table
         ->columns([
             TextColumn::make('name')->label('名前')->searchable()->sortable(),
             TextColumn::make('email')->label('メール')->searchable(),
+            TextColumn::make('credit_balance')->label('クレジット')->alignCenter(),
             IconColumn::make('is_admin')->label('管理者')->boolean()->sortable(),
         ]);
 }
