@@ -5,12 +5,20 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\CreditHistory;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 
 class User extends Authenticatable
 {
+    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasFactory, Notifiable;
+
+    public function creditHistories()
+    {
+        return $this->hasMany(\App\Models\CreditHistory::class, 'user_id');
+    }
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -23,7 +31,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'heygen_api_key',
     ];
 
     /**
@@ -64,4 +71,9 @@ class User extends Authenticatable
     {
         return (bool) $this->is_admin; // 管理者のみ /admin へ
     }
+
+    public function sendPasswordResetNotification($token)
+{
+    $this->notify(new \App\Notifications\ResetPasswordNotification($token));
+}
 }

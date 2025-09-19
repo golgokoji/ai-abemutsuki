@@ -10,10 +10,22 @@ class ListUsers extends ListRecords
 {
     protected static string $resource = UserResource::class;
 
+    protected static ?string $title = 'ユーザー一覧';
+
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label('新規ユーザー追加'),
         ];
+    }
+
+    protected function getTableActions(): array
+    {
+        return [];
+    }
+
+    protected function getTableBulkActions(): array
+    {
+        return [];
     }
 }

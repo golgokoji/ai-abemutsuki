@@ -54,13 +54,13 @@ class GenerateAvatarJob implements ShouldQueue
         $audioUrl = $voice->public_url
             ?: url(Storage::url(str_replace('public/', '', $voice->file_path)));
 
-        // ユーザーのHeyGen APIキーを取得
-        $apiKey = optional($voice->script->user)->heygen_api_key;
+        // HeyGen APIキーはenvから取得
+        $apiKey = env('HEYGEN_API_KEY');
         if (empty($apiKey)) {
             AvatarVideo::where('voice_id', $voice->id)
                 ->latest()->first()?->update([
                     'status' => 'failed',
-                    'provider_response' => ['error' => 'ユーザーのHeyGen APIキーが未設定です'],
+                    'provider_response' => ['error' => 'HEYGEN_API_KEYが未設定です（.env）'],
                 ]);
             return;
         }

@@ -7,6 +7,7 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TtsController;
 use App\Http\Controllers\AvatarController;
+use App\Http\Controllers\AbelaboSettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,7 +53,7 @@ Route::get('/auth/google/callback', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
 
     // Breeze 既定のダッシュボード
-    Route::get('/dashboard', fn () => view('dashboard'))->name('dashboard');
+    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     Route::get('/voices', [\App\Http\Controllers\VoiceController::class, 'index'])->name('voices.index');
 
     // プロフィール（Breeze）
@@ -61,11 +62,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile',[ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // TTS フォーム & 送信
+        // 管理画面：クレジット履歴一覧
     Route::get('/tts',  [TtsController::class, 'form'])->name('tts.form');
     Route::post('/tts', [TtsController::class, 'submit'])->name('tts.submit');
 
     // HeyGen アバター生成
     Route::post('/avatar/{voice}', [AvatarController::class, 'generate'])->name('avatar.generate');
+
+    // Abelabo 設定
+    Route::get('/abelabo/settings', [AbelaboSettingsController::class, 'edit'])
+        ->name('abelabo.settings');
+Route::post('/abelabo/settings', [AbelaboSettingsController::class, 'update'])
+    ->name('abelabo.settings.update')
+    ->middleware(['auth']);
 });
 
 use App\Http\Controllers\HeygenTestController;

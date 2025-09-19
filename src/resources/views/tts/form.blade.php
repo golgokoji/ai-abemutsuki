@@ -18,11 +18,11 @@
                         @csrf
                         <div>
                             <label class="block font-medium">タイトル（任意）</label>
-                            <input type="text" name="title" class="mt-1 block w-full border rounded px-3 py-2" value="{{ old('title') }}">
+                            <input type="text" name="title" class="mt-1 block w-full border border-gray-300 focus:border-indigo-500 rounded px-3 py-2" value="{{ old('title') }}">
                         </div>
                         <div>
                             <label class="block font-medium">台本テキスト</label>
-                            <textarea name="text" rows="8" class="mt-1 block w-full border rounded px-3 py-2">{{ old('text') }}</textarea>
+                            <textarea name="text" rows="8" class="mt-1 block w-full border border-gray-300 focus:border-indigo-500 rounded px-3 py-2">{{ old('text') }}</textarea>
                             @error('text')<div class="text-red-600 mt-1">{{ $message }}</div>@enderror
                         </div>
                         <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">音声生成を依頼（キュー投入）</button>
@@ -34,11 +34,8 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
                     <h3 class="font-semibold text-lg mb-4">最新の音声（直近20件）</h3>
-                    @php
-                        $voices = \App\Models\Voice::with('script')->latest()->limit(20)->get();
-                    @endphp
                     @if($voices->isEmpty())
-                        <p class="text-gray-500">まだありません。<a href="{{ route('tts.form') }}" class="text-indigo-600 underline">こちら</a>から作成できます。</p>
+                        <p class="text-gray-500">作成された音声はまだありません。</p>
                     @else
                         <ul class="space-y-2">
                             @foreach($voices as $v)
@@ -74,9 +71,6 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
                     <h3 class="font-semibold text-lg mb-4">最新のアバター動画（直近20件）</h3>
-                    @php
-                        $videos = \App\Models\AvatarVideo::with('voice')->latest()->limit(20)->get();
-                    @endphp
                     @if($videos->isEmpty())
                         <p class="text-gray-500">まだありません。音声を生成後、「アバター動画生成」を実行してください。</p>
                     @else
