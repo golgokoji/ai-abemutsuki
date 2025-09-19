@@ -71,4 +71,9 @@ class User extends Authenticatable
     {
         return (bool) $this->is_admin; // 管理者のみ /admin へ
     }
+
+    public function sendPasswordResetNotification($token)
+{
+    $this->notify(new \App\Notifications\ResetPasswordNotification($token));
+}
 }

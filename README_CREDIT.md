@@ -126,11 +126,11 @@ Content-Type: application/json
 payz決済の場合はsubscription_uidを注文IDとして使用して重複を避ければOKです。
 
 # 決済履歴テーブルについて
-注文ID、金額、付与したポイント、日時、決済システム名（infotop/payz_salon/payz_directなど）などのデータを格納します。
+注文ID、金額、付与したポイント、日時、決済システム名（infotop/payz_abelabo/payz_directなど）などのデータを格納します。
 
 
 infotopはインフォトップ決済のあべラボ課金
-payz_salonはpayzシステムのあべラボ課金
+payz_abelaboはpayzシステムのあべラボ課金
 payz_directは直接クレジットを購入した場合のレコードを想定しています。
 
 

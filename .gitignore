@@ -17,3 +17,4 @@ Homestead.json
 Homestead.yaml
 /.vscode/
 /.history/
+/src/secrets/
