@@ -9,9 +9,19 @@ use Illuminate\Http\Request;
 
 class TtsController extends Controller
 {
-    public function form()
+    public function form(Request $request)
     {
-        return view('tts.form');
+        $voices = Voice::with('script')
+            ->where('user_id', $request->user()->id)
+            ->latest()
+            ->limit(20)
+            ->get();
+        $videos = \App\Models\AvatarVideo::with('voice')
+            ->where('user_id', $request->user()->id)
+            ->latest()
+            ->limit(20)
+            ->get();
+        return view('tts.form', compact('voices', 'videos'));
     }
 
     public function submit(Request $request)

@@ -38,14 +38,12 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
                     <h3 class="font-semibold text-lg mb-4">最新の音声（直近20件）</h3>
-                    @php
-                        $voices = \App\Models\Voice::with('script')->latest()->limit(20)->get();
-                    @endphp
                     @if($voices->isEmpty())
                         <p class="text-gray-500">まだありません。<a href="{{ route('tts.form') }}" class="text-indigo-600 underline">こちら</a>から作成できます。</p>
                     @else
                         <ul class="space-y-2">
                             @foreach($voices as $v)
+                                <div>テスト: {{ $v->id }}</div>
                                 <li class="flex items-center justify-between p-3 border rounded">
                                     <div>
                                         <span class="inline-block text-xs px-2 py-1 rounded bg-gray-100 mr-2">#{{ $v->id }}</span>
@@ -78,9 +76,6 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
                     <h3 class="font-semibold text-lg mb-4">最新のアバター動画（直近20件）</h3>
-                    @php
-                        $videos = \App\Models\AvatarVideo::latest()->limit(20)->get();
-                    @endphp
                     @if($videos->isEmpty())
                         <p class="text-gray-500">まだありません。音声を生成後、「アバター動画生成」を実行してください。</p>
                     @else
