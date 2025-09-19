@@ -34,12 +34,6 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        // ★ HeyGen APIキーの保存処理を追加
-        if ($request->has('heygen_api_key')) {
-            $request->user()->update([
-                'heygen_api_key' => $request->input('heygen_api_key'),
-            ]);
-        }
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }

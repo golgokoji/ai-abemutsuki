@@ -1,6 +1,43 @@
 
 キューを起動
 php artisan queue:work
+docker compose exec app php artisan queue:restart
 
 
 docker compose exec node sh -lc 'rm -f public/hot && npm run dev -- --host=0.0.0.0'
+
+
+マージ方法
+git checkout main
+git merge feature/credits
+
+
+新しいブランチを作成する場合のコマンド
+git checkout -b feature/user-abelabo-settings
+
+
+
+疑似ウェブフックリクエスト
+curl -X POST http://localhost:8080/api/webhooks/payz \
+  -H "Content-Type: application/json" \
+  -d '{
+    "subscription_uid": "sub_1234567890",
+    "membership_uid": "m_abcde",
+    "user_uid": "u_999",
+    "email": "golgokoji@gmail.com",
+    "status": "subscribing",
+    "name_last": "上田",
+    "name_first": "浩司",
+    "kana_last": "うえだ",
+    "kana_first": "こうじ",
+    "prefecture": "東京都",
+    "city": "港区",
+    "address1": "芝公園4-2-8",
+    "address2": "東京タワー201",
+    "zip": "1050011",
+    "tel": "090-5811-6238",
+    "fax": null,
+    "dob": null,
+    "client_ip": "203.0.113.10",
+    "client_ua": "Mozilla/5.0"
+  }' -i
