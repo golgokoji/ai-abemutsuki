@@ -2,25 +2,52 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Models\CreditHistory;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
     public function creditHistories()
     {
-        return $this->hasMany(\App\Models\CreditHistory::class, 'user_id');
+        return $this->hasMany(CreditHistory::class, 'user_id');
     }
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+
+    /**
+     * クレジット残高取得
+     */
+    public function getCreditBalance(): int
+    {
+        return $this->credit_balance ?? 0;
+    }
+
+    /**
+     * クレジット消費（動画作成時）
+     * @param int $duration 動画秒数
+     * @param int|null $videoId 動画ID
+     * @return bool 成功時true
+     */
+    public function consumeCreditForVideo(int $duration, ?int $videoId = null): bool
+    {
+        $consume = (int) ceil($duration / 30);
+        $actualConsume = min($consume, $this->getCreditBalance());
+        $this->credit_balance -= $actualConsume;
+        $this->save();
+        \App\Models\CreditHistory::create([
+            'user_id' => $this->id,
+            'amount'  => 0,
+            'system'  => 'consume',
+            'credit'  => -$actualConsume,
+            'video_id'=> $videoId,
+            'note'    => '動画作成によるクレジット消費',
+            'order_id'=> null, // ←追加
+        ]);
+        return true;
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -31,6 +58,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'credit_balance'
     ];
 
     /**

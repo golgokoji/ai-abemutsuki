@@ -10,7 +10,7 @@ class AvatarVideo extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id','voice_id','status','provider','video_id','file_url','provider_response'
+        'user_id','voice_id','status','provider','video_id','file_url','provider_response','duration'
     ];
 
     protected $casts = [

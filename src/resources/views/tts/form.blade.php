@@ -39,23 +39,27 @@
                     @else
                         <ul class="space-y-2">
                             @foreach($voices as $v)
-                                <li class="flex items-center justify-between p-3 border rounded">
+                                <li class="p-3 border rounded">
                                     <div>
                                         <span class="inline-block text-xs px-2 py-1 rounded bg-gray-100 mr-2">#{{ $v->id }}</span>
                                         <span class="font-medium">{{ optional($v->script)->title ?? '(無題)' }}</span>
                                         <span class="ml-2 text-sm text-gray-500">[{{ $v->status }}]</span>
                                     </div>
-                                    <div class="flex items-center gap-3">
+                                    <div class="flex gap-3 mt-2 justify-end">
                                         @if($v->public_url)
-                                            <a class="text-indigo-600 underline" target="_blank" href="{{ $v->public_url }}">再生</a>
+                                            <form action="{{ $v->public_url }}" method="get" target="_blank" style="display:inline;">
+                                                <button type="submit" class="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm">再生</button>
+                                            </form>
                                         @elseif($v->file_path)
-                                            <a class="text-indigo-600 underline" target="_blank" href="{{ \Illuminate\Support\Facades\Storage::url($v->file_path) }}">再生</a>
+                                            <form action="{{ \Illuminate\Support\Facades\Storage::url($v->file_path) }}" method="get" target="_blank" style="display:inline;">
+                                                <button type="submit" class="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm">再生</button>
+                                            </form>
                                         @endif
                                         @if($v->status === 'succeeded')
-                                            <form method="post" action="{{ route('avatar.generate', ['voice' => $v->id]) }}">
+                                            <form method="post" action="{{ route('avatar.generate', ['voice' => $v->id]) }}" style="display:inline;">
                                                 @csrf
                                                 <button class="text-sm px-3 py-1 border rounded hover:bg-gray-50">
-                                                    この音声でアバター動画生成
+                                                    動画生成
                                                 </button>
                                             </form>
                                         @endif
@@ -76,16 +80,21 @@
                     @else
                         <ul class="space-y-2">
                             @foreach($videos as $vd)
-                                <li class="flex items-center justify-between p-3 border rounded">
+                                <li class="p-3 border rounded">
                                     <div>
                                         <span class="inline-block text-xs px-2 py-1 rounded bg-gray-100 mr-2">#{{ $vd->id }}</span>
                                         <span class="font-medium">VideoID: {{ $vd->video_id ?? '-' }}</span>
                                         <span class="ml-2 text-sm text-gray-500">[{{ $vd->status }}]</span>
                                         <span class="ml-2 text-xs text-gray-400">VoiceID: {{ $vd->voice_id }}</span>
                                     </div>
-                                    <div>
+                                    <div class="mt-1 text-xs text-gray-600">
+                                        音声: {{ optional(optional($vd->voice)->script)->title ?? '(無題)' }}
+                                    </div>
+                                    <div class="flex gap-3 mt-2 justify-end">
                                         @if($vd->file_url)
-                                            <a class="text-indigo-600 underline" target="_blank" href="{{ $vd->file_url }}">再生</a>
+                                            <form action="{{ $vd->file_url }}" method="get" target="_blank" style="display:inline;">
+                                                <button type="submit" class="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm">再生</button>
+                                            </form>
                                         @endif
                                     </div>
                                 </li>

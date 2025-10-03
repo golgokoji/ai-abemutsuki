@@ -55,6 +55,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Breeze 既定のダッシュボード
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     Route::get('/voices', [\App\Http\Controllers\VoiceController::class, 'index'])->name('voices.index');
+    Route::get('/avatar-videos', [\App\Http\Controllers\AvatarVideoController::class, 'index'])->name('avatar_videos.index');
 
     // プロフィール（Breeze）
     Route::get('/profile',  [ProfileController::class, 'edit'])->name('profile.edit');
