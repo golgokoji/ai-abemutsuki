@@ -8,11 +8,11 @@ class CreditHistory extends Model
     protected $table = 'credit_histories';
     protected $fillable = [
         'user_id',
-        'order_id',
         'amount',
         'credit',
         'system',
-        'granted_at',
+        'video_id',
+        'order_id',
         'note',
     ];
     public $timestamps = true;

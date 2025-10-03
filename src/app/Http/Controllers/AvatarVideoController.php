@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Voice;
+use App\Models\AvatarVideo;
 use Illuminate\Http\Request;
 
-class VoiceController extends Controller
+class AvatarVideoController extends Controller
 {
     /**
-     * 音声一覧
+     * アバター動画一覧
      */
     public function index()
     {
         $user = auth()->user();
-        $voices = Voice::with('script')
+        $videos = AvatarVideo::with('voice.script')
             ->where('user_id', $user->id)
             ->latest()
             ->paginate(20);
-        return view('voices.index', compact('voices'));
+        return view('avatar_videos.index', compact('videos'));
     }
 }

@@ -143,11 +143,20 @@ class GenerateAvatarJob implements ShouldQueue
                         'ContentType' => 'video/mp4',
                     ]);
                     $publicUrl = rtrim(config('filesystems.disks.s3.url'), '/') . '/' . ltrim($s3path, '/');
+                    // 動画のduration取得（秒）
+                    $duration = $data['data']['duration'] ?? null;
                     $video->update([
                         'status' => 'succeeded',
                         'file_url' => $publicUrl,
                         'provider_response' => $data,
+                        'duration' => $duration,
                     ]);
+
+                    // クレジット消費処理
+                    $user = $video->user;
+                    if ($duration && $user) {
+                        $user->consumeCreditForVideo((int)$duration, $video->id);
+                    }
                     return;
                 }
                 $video->update([
