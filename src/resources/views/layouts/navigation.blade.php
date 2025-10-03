@@ -21,6 +21,9 @@
                     <x-nav-link :href="route('voices.index')" :active="request()->routeIs('voices.index')">
                         音声一覧
                     </x-nav-link>
+                    <x-nav-link :href="route('avatar_videos.index')" :active="request()->routeIs('avatar_videos.index')">
+                        アバター動画一覧
+                    </x-nav-link>
 
                 </div>
             </div>
