@@ -44,7 +44,7 @@ class TtsController extends Controller
             'user_id'   => $request->user()->id,
             'script_id' => $script->id,
             'status'    => 'queued',
-            'provider'  => 'elevenlabs',
+            'provider'  => 'fishaudio',
         ]);
 
         // 3) 非同期ジョブを発行
