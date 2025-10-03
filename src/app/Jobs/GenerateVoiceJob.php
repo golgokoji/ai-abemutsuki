@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Http;
+use App\Services\FishAudioService;
 use Illuminate\Support\Facades\Storage;
 
 class GenerateVoiceJob implements ShouldQueue
@@ -52,48 +52,28 @@ class GenerateVoiceJob implements ShouldQueue
 
     $voice->update(['status' => 'processing']);
 
-        $script  = $voice->script;
-        $apiKey  = config('services.elevenlabs.key') ?? env('ELEVENLABS_API_KEY');
-        $voiceId = env('ELEVENLABS_VOICE_ID');
-        $modelId = env('ELEVENLABS_MODEL_ID', 'eleven_multilingual_v2');
-
-        // S3保存先パス
-        $relPath = "voices/voice_{$voice->id}.mp3";
+        $script = $voice->script;
+        $fileName = "voice_{$voice->id}.mp3";
 
         try {
-            $url  = "https://api.elevenlabs.io/v1/text-to-speech/{$voiceId}";
-            $resp = Http::withHeaders([
-                'xi-api-key'   => $apiKey,
-                'Accept'       => 'audio/mpeg',
-                'Content-Type' => 'application/json',
-            ])->post($url, [
-                'model_id'       => $modelId,
-                'text'           => $script->text,
-                'voice_settings' => [
-                    'stability'        => 0.4,   // 安定性スライダー位置
-                    'similarity_boost' => 0.8,   // 類似性スライダー位置
-                    'style'            => 0.0,   // スタイル誇張なし
-                    'use_speaker_boost'=> true,  // スピーカーブーストON
-                    'speed'            => 0.84,    // 遅め設定（目盛り位置に応じて調整）
-                ],
-            ]);
+            $service = new FishAudioService();
+            $result = $service->generate($script->text, $fileName);
 
-            if (!$resp->ok()) {
+            if (!$result['success']) {
                 $voice->update([
-                    'status'             => 'failed',
-                    'provider_response'  => ['code' => $resp->status(), 'body' => $resp->json()],
+                    'status'            => 'failed',
+                    'provider_response' => ['error' => $result['error']],
                 ]);
                 return;
             }
 
-            // mp3 をS3に保存
-            // Storage::disk('s3')->put($relPath, $resp->body(), ['visibility' => 'public']);
-            Storage::disk('s3')->put($relPath, $resp->body());
+            $relPath = $result['path'];
+            $publicUrl = $result['url'] ?? null;
 
             $voice->update([
                 'status'     => 'succeeded',
                 'file_path'  => $relPath,
-                'public_url' => rtrim(config('filesystems.disks.s3.url'), '/') . '/' . ltrim($relPath, '/'),
+                'public_url' => $publicUrl,
             ]);
         } catch (\Throwable $e) {
             $voice->update([
