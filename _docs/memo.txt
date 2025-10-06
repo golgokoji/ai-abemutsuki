@@ -41,3 +41,14 @@ curl -X POST http://localhost:8080/api/webhooks/payz \
     "client_ip": "203.0.113.10",
     "client_ua": "Mozilla/5.0"
   }' -i
+
+
+
+
+商品のご購入が完了しました。
+
+購入ID P_IVM7OFQQ
+購入日時 2025/10/06 20:42
+
+以下のURLからクレジットを受け取ることができます。
+https://ai.abe-labo.biz/charge?purchase_uid=P_IVM7OFQQ&email=golgokoji@gmail.com
