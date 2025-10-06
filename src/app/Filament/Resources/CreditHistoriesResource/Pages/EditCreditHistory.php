@@ -10,6 +10,21 @@ class EditCreditHistory extends EditRecord
 
     public function form(\Filament\Forms\Form $form): \Filament\Forms\Form
     {
+        $userId = $this->record?->user_id;
+        $userLink = null;
+        if ($userId) {
+            $userLink = route('filament.admin.resources.users.view', ['record' => $userId]);
+        }
+        $userId = $this->record?->user_id;
+        $userLink = null;
+        if ($userId) {
+            $userLink = route('filament.admin.resources.users.view', ['record' => $userId]);
+        }
+        $userId = $this->record?->user_id;
+        $userLink = null;
+        if ($userId) {
+            $userLink = route('filament.admin.resources.users.view', ['record' => $userId]);
+        }
         return $form->schema([
             \Filament\Forms\Components\TextInput::make('credit')
                 ->label('クレジット数')
@@ -31,6 +46,8 @@ class EditCreditHistory extends EditRecord
             \Filament\Forms\Components\TextInput::make('user_id')
                 ->label('ユーザーID')
                 ->required(),
+            $userLink ? \Filament\Forms\Components\View::make('filament.components.user-link-label')
+                ->viewData(['url' => $userLink, 'userId' => $userId]) : null,
             \Filament\Forms\Components\TextInput::make('granted_at')
                 ->label('付与日時')
                 ->required(),

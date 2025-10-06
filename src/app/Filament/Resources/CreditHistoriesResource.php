@@ -33,7 +33,10 @@ class CreditHistoriesResource extends Resource
                 TextColumn::make('amount')->sortable(),
                 TextColumn::make('credit')->sortable()->color(fn($state) => $state < 0 ? 'danger' : 'success'),
                 TextColumn::make('system')->sortable(),
-                TextColumn::make('granted_at')->dateTime()->sortable(),
+                TextColumn::make('granted_at')
+                    ->label('付与日時')
+                    ->formatStateUsing(fn($state) => $state ? date('Y/m/d H:i:s', strtotime($state)) : '')
+                    ->sortable(),
                 TextColumn::make('note')->limit(30),
             ])
             ->filters([

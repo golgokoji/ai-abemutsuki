@@ -9,6 +9,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use App\Filament\Resources\CreditHistoriesResource;
 use App\Filament\Resources\UserResource;
+use App\Filament\Resources\CouponInitialCreditResource;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -32,9 +33,11 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
+            // 以下に管理するリソースを列挙（app/Providers/Filament/*Provider.php参照）
             ->resources([
                 CreditHistoriesResource::class,
                 UserResource::class,
+                CouponInitialCreditResource::class,
             ])
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
