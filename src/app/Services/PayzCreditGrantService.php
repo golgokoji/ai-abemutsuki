@@ -10,11 +10,11 @@ use Carbon\Carbon;
 use Google\Client as GoogleClient;
 use Google\Service\Sheets as GoogleSheets;
 
-class InfotopCreditGrantService
+class PayzCreditGrantService
 {
     public function run(?string $range = null): array
     {
-        return Cache::lock('infotop-import-lock', 300)->block(5, function () use ($range) {
+        return Cache::lock('payz-import-lock', 300)->block(5, function () use ($range) {
             $rows = $this->getSheetValues($range);
             if (empty($rows)) {
                 return ['checked'=>0,'granted'=>0,'skipped'=>0,'errors'=>0,'reason'=>'no rows'];
@@ -40,7 +40,7 @@ class InfotopCreditGrantService
                 if (!$orderId) { $sum['errors']++; continue; }
 
                 // 事前に履歴重複チェック（system+order_id）
-                $exists = \App\Models\CreditHistory::where('system', 'infotop')
+                $exists = \App\Models\CreditHistory::where('system', 'payz')
                     ->where('order_id', (string)$orderId)
                     ->exists();
                 if ($exists) {
@@ -52,7 +52,7 @@ class InfotopCreditGrantService
                     $rawAmt  = $this->val($r, $idx['amount']);
                     $amount  = $this->toIntAmount($rawAmt);
 
-                    // 9800円未満はスキップ（特別プランなど）
+                    // 9800円未満はスキップ
                     if ($amount < 9800) {
                         $sum['skipped']++;
                         continue;
@@ -60,8 +60,8 @@ class InfotopCreditGrantService
 
                     $email   = mb_strtolower(trim((string)$this->val($r, $idx['email'])));
                     $name    = trim((string)$this->val($r, $idx['name']));
-                    $tel     = preg_replace('/\D+/', '', (string)$this->val($r, $idx['tel']));
-                    $note    = (string)($this->val($r, $idx['note']) ?? 'Infotop import');
+                    $tel     = trim((string)$this->val($r, $idx['tel'])); // 文字列として扱う
+                    $note    = (string)($this->val($r, $idx['note']) ?? 'Payz import');
                     $dateStr = $this->val($r, $idx['date']);
                     $granted = now();
                     if ($dateStr) {
@@ -71,7 +71,6 @@ class InfotopCreditGrantService
                     $userId = $this->resolveUserIdCompact($email, $name, $tel);
                     if (!$userId) { $sum['errors']++; continue; }
 
-                    // ボーナスポイント（固定）
                     $credit = (int) env('ABELABO_BONUS_CREDIT', 10);
 
                     DB::transaction(function () use ($userId, $orderId, $amount, $credit, $note, $granted) {
@@ -80,7 +79,7 @@ class InfotopCreditGrantService
                             'order_id'   => (string)$orderId,
                             'amount'     => $amount,
                             'credit'     => $credit,
-                            'system'     => 'infotop',
+                            'system'     => 'payz',
                             'granted_at' => $granted,
                             'note'       => $note,
                         ]);
@@ -99,7 +98,7 @@ class InfotopCreditGrantService
                         $sum['skipped']++;
                     } else {
                         $sum['errors']++;
-                        Log::warning('Infotop import row error', [
+                        Log::warning('Payz import row error', [
                             'ex' => $e->getMessage(), 'row' => $r,
                         ]);
                     }
@@ -113,12 +112,12 @@ class InfotopCreditGrantService
     private function getSheetValues(?string $range = null): array
     {
         $credentialsPath = env('GOOGLE_SHEETS_CREDENTIALS');
-        $sheetId         = env('INFOTOP_SHEET_ID');
-        $range           = $range ?? env('INFOTOP_SHEET_RANGE', 'シート1!A:Z');
+        $sheetId         = env('PAYZ_SHEET_ID');
+        $range           = $range ?? env('PAYZ_SHEET_RANGE', 'payz_orders!A:Z');
 
         $client = new GoogleClient();
         $client->setAuthConfig($credentialsPath);
-        $client->setApplicationName('Infotop Import');
+        $client->setApplicationName('Payz Import');
         $client->setScopes([GoogleSheets::SPREADSHEETS_READONLY]);
 
         $sheets = new GoogleSheets($client);
@@ -158,8 +157,10 @@ class InfotopCreditGrantService
     {
         $q = AbelaboUserSetting::query();
         if ($email) $q->orWhereRaw('LOWER(email)=?', [mb_strtolower($email)]);
-        if ($name)  $q->orWhere('name', $name);
-        if ($tel)   $q->orWhereRaw('REPLACE(REPLACE(REPLACE(tel,"-","")," ",""),"+","") = ?', [preg_replace('/\D+/', '', $tel)]);
+        // 名前一致は不要
+        // if ($name)  $q->orWhere('name', $name);
+        // 電話番号は入力値そのままで一致
+        if ($tel)   $q->orWhere('tel', $tel);
         $s = $q->first();
         return $s?->user_id;
     }
