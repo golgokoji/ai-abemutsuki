@@ -22,8 +22,11 @@
                         音声一覧
                     </x-nav-link>
                     <x-nav-link :href="route('avatar_videos.index')" :active="request()->routeIs('avatar_videos.index')">
-                        アバター動画一覧
+                        動画一覧
                     </x-nav-link>
+                        <x-nav-link :href="route('credit_history')" :active="request()->routeIs('credit_history')">
+                            クレジット履歴
+                        </x-nav-link>
 
                 </div>
             </div>
@@ -87,6 +90,18 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('tts.form')" :active="request()->routeIs('tts.*')">
+                音声作成
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('voices.index')" :active="request()->routeIs('voices.index')">
+                音声一覧
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('avatar_videos.index')" :active="request()->routeIs('avatar_videos.index')">
+                動画一覧
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('credit_history')" :active="request()->routeIs('credit_history')">
+                クレジット履歴
             </x-responsive-nav-link>
         </div>
 

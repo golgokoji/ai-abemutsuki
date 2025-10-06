@@ -42,8 +42,13 @@ Route::get('/auth/google/callback', function () {
     );
 
     Auth::login($user);
-    return redirect()->route('dashboard');
+    return redirect()->route('register.complete'); // ここを変更
 })->name('google.callback');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/register/complete', [\App\Http\Controllers\RegisterCompleteController::class, 'show'])->name('register.complete');
+    Route::post('/register/complete', [\App\Http\Controllers\RegisterCompleteController::class, 'store'])->name('register.complete.store');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +56,8 @@ Route::get('/auth/google/callback', function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'verified'])->group(function () {
+    // 動画一覧
+    Route::get('/avatar-videos', [\App\Http\Controllers\AvatarVideoController::class, 'index'])->name('avatar_videos.index');
 
     // Breeze 既定のダッシュボード
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
@@ -76,12 +83,28 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::post('/abelabo/settings', [AbelaboSettingsController::class, 'update'])
     ->name('abelabo.settings.update')
     ->middleware(['auth']);
+
+    // クレジット履歴（ユーザー向け）
+    Route::get('/credit-history', [\App\Http\Controllers\CreditHistoryController::class, 'index'])->name('credit_history');
+    Route::get('/credit-history/{id}', [\App\Http\Controllers\CreditHistoryController::class, 'show'])->name('credit_history.show');
 });
 
 use App\Http\Controllers\HeygenTestController;
 
 Route::get('/heygen-test', [HeygenTestController::class, 'create']);
 
+/*
+|--------------------------------------------------------------------------
+| 利用規約・プライバシーポリシー
+|--------------------------------------------------------------------------
+*/
+Route::get('/terms', function() {
+    return view('terms');
+})->name('terms');
+
+Route::get('/privacy', function() {
+    return view('privacy');
+})->name('privacy');
 
 /*
 |--------------------------------------------------------------------------

@@ -8,6 +8,10 @@
 
     <div class="py-6">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+            <div class="flex gap-6 mb-6">
+                <a href="{{ route('voices.index') }}" class="px-4 py-2 rounded bg-indigo-100 text-indigo-700 font-bold">音声一覧</a>
+                <a href="{{ route('avatar_videos.index') }}" class="px-4 py-2 rounded bg-gray-100 text-gray-700 hover:bg-indigo-50">動画一覧</a>
+            </div>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
                     @if($voices->isEmpty())
