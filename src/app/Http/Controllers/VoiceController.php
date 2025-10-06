@@ -16,7 +16,7 @@ class VoiceController extends Controller
         $voices = Voice::with('script')
             ->where('user_id', $user->id)
             ->latest()
-            ->paginate(5);
+            ->paginate(20);
         return view('voices.index', compact('voices'));
     }
 }
