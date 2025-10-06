@@ -13,10 +13,12 @@ class AvatarVideoController extends Controller
     public function index()
     {
         $user = auth()->user();
+
         $videos = AvatarVideo::with('voice.script')
             ->where('user_id', $user->id)
             ->latest()
             ->paginate(20);
+
         return view('avatar_videos.index', compact('videos'));
     }
 }

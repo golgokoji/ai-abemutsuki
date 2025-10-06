@@ -1,3 +1,11 @@
+# bladeの実装方針
+すべての Blade テンプレートは Jetstream/Breeze 形式で統一してください。
+`@extends` や `@section` は使わず、常に `<x-app-layout>` を使用して書いてください。
+
+コンテンツ部分は `<x-slot name="header">` と `<x-slot name="content">` を使う構成でお願いします。
+
+
+
 # Infotop 課金クレジット付与機能
 
 この機能は **インフォトップ決済の売上データ** をもとに、ユーザーにクレジットを自動付与します。  
