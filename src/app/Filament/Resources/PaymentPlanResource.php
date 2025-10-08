@@ -24,6 +24,7 @@ class PaymentPlanResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\View::make('admin.payment_plan_email_template'),
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->label('プラン名'),

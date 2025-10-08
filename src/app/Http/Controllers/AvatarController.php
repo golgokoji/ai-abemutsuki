@@ -14,7 +14,12 @@ class AvatarController extends Controller
             return back()->with('status', '音声が未生成です。まずは音声をsucceededまで完了してください。');
         }
 
-    GenerateAvatarJob::dispatch($voice->id);
+        $user = auth()->user();
+        if ($user && method_exists($user, 'getCreditBalance') && $user->getCreditBalance() <= 0) {
+            return back()->with('error', 'クレジットが足りません。チャージしてください。');
+        }
+
+        GenerateAvatarJob::dispatch($voice->id);
 
         return back()->with('status', 'アバター動画生成をキューに投入しました。少し後に再読込してください。');
     }

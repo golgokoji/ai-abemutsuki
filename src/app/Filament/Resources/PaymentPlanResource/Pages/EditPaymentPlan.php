@@ -16,4 +16,12 @@ class EditPaymentPlan extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    public function getFormSchema(): array
+    {
+        return [
+            \Filament\Forms\Components\View::make('admin.payment_plan_email_template'),
+            ...parent::getFormSchema(),
+        ];
+    }
 }

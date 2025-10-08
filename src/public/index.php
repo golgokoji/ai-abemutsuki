@@ -26,16 +26,7 @@ require __DIR__.'/../vendor/autoload.php';
 
 $app = require_once __DIR__.'/../bootstrap/app.php';
 
-// 計測開始ログ（Application生成後に移動）
-if (file_exists(__DIR__.'/../app/Support/DebugTimer.php')) {
-    require_once __DIR__.'/../app/Support/DebugTimer.php';
-    \App\Support\DebugTimer::log(__FILE__, __LINE__, 'index.php開始');
-}
 
 
 $app->handleRequest(Request::capture());
 
-// 計測終了ログ（handleRequest後に移動）
-if (file_exists(__DIR__.'/../app/Support/DebugTimer.php') && class_exists('\App\Support\DebugTimer')) {
-    \App\Support\DebugTimer::log(__FILE__, __LINE__, 'index.php終了');
-}
