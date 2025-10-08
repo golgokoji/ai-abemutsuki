@@ -19,8 +19,43 @@ class CouponController extends Controller
         $request->validate([
             'coupon_code' => ['required', 'string', 'max:32'],
         ]);
-        // ここでクーポン処理ロジックを実装
-        // ...
+        $user = Auth::user();
+        if (!$user) {
+            return redirect('/login');
+        }
+        $code = trim($request->input('coupon_code', ''));
+        // 重複利用防止
+        if (\App\Models\CouponLog::where('code', $code)->where('email', $user->email)->exists()) {
+            
+            return back()->with('error', 'このクーポンは既に利用済みです');
+        }
+        // クーポン有効性チェック
+        $resolver = app(\App\Services\InitialCreditResolver::class);
+        $coupon = $resolver->getValidCoupon($code);
+        $credit = $coupon ? (int)$coupon->credit : 0;
+        \DB::transaction(function() use ($user, $credit, $code, $coupon) {
+            if ($credit > 0) {
+                $user->credit_balance = ($user->credit_balance ?? 0) + $credit;
+                $user->save();
+
+                \App\Models\CreditHistory::create([
+                    'user_id'    => $user->id,
+                    'amount'     => $credit,
+                    'credit'     => $user->credit_balance,
+                    'system'     => 'coupon',
+                    'granted_at' => now(),
+                    'note'       => 'クーポンによるクレジット付与 code:' . $code,
+                ]);
+            }
+            \App\Models\CouponLog::create([
+                'code' => $code,
+                'email' => $user->email,
+                'credit' => $credit,
+                'user_id' => $user->id,
+                'ip' => request()->ip(),
+                'user_agent' => request()->userAgent(),
+            ]);
+        });
         return redirect()->route('dashboard')->with('status', 'クーポン処理が完了しました');
     }
 }
