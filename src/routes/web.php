@@ -1,4 +1,7 @@
 <?php
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +23,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/charge', [\App\Http\Controllers\ChargeController::class, 'store'])->name('charge.store');
 });
 Route::get('/', fn () => view('welcome'))->name('home');
-
+Route::get('/_sess', function (Request $r) {
+    if (! $r->session()->has('probe')) {
+        $token = Str::random(8);
+        $r->session()->put('probe', $token);
+        return response()->json(['action' => 'write', 'token' => $token]);
+    }
+    return response()->json(['action' => 'read', 'token' => $r->session()->get('probe')]);
+});
 /*
 |--------------------------------------------------------------------------
 | Google OAuth (Socialite)
