@@ -23,3 +23,7 @@ _docs/
 _docs/*.json
 *.credentials.json
 *.service-account.json
+/bin/
+/tmp/
+/storage/logs/
+/*.log

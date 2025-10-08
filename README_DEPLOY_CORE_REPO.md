@@ -220,7 +220,12 @@ php artisan up
 - メールテスト用: Mailtrap または MailHog 利用可
 - 外部ジョブ処理: Google Cloud / Render / CronJob.org 等を併用可能
 
----
+## Queue Worker (CoreServer)
+- Path: `/home/golgokoji/domains/ai.abe-labo.biz/repo/src/bin/queue-worker.sh`
+- Runs via cron every minute with flock
+- Log: `~/.local/var/log/laravel/queue.cron.log`
+- Do not include this file in Git (server-specific)
+
 
 © Lucky Mine / AIあべむつき  
 All Rights Reserved.
