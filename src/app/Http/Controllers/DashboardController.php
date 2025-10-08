@@ -12,7 +12,6 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         
-        \App\Support\DebugTimer::log(__FILE__, __LINE__, 'dashboard表示');
 
         $voices = Voice::with('script')
             ->where('user_id', Auth::id())
