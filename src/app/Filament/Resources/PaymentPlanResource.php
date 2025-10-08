@@ -15,8 +15,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PaymentPlanResource extends Resource
 {
+    protected static ?string $navigationGroup = '決済管理';
+    
     protected static ?string $model = PaymentPlan::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form

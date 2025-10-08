@@ -8,6 +8,13 @@ use App\Models\User;
 use App\Models\CreditHistory;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * 
+ * /charge?purchase_uid=xxxxx&email=yyyy
+ * でアクセスしてクレジット付与を行う
+ * 
+ * 
+ */
 class ChargeController extends Controller
 {
     /**
@@ -23,9 +30,11 @@ class ChargeController extends Controller
         }
         $pending = PayzPendingGrant::where('purchase_uid', $purchaseUid)
             ->where('payment_email', $email)
+            ->whereNull('claimed_user_id')
+            ->whereNull('claimed_at')
             ->first();
         if (!$pending) {
-            return response('No pending found', 404);
+            return response('保留中の決済が見つかりません', 404);
         }
         // 既に付与済みなら確認画面で「付与済み」表示
         $alreadyCharged = CreditHistory::where('order_id', $purchaseUid)->exists();
@@ -51,9 +60,11 @@ class ChargeController extends Controller
         }
         $pending = PayzPendingGrant::where('purchase_uid', $purchaseUid)
             ->where('payment_email', $email)
+            ->whereNull('claimed_user_id')
+            ->whereNull('claimed_at')
             ->first();
         if (!$pending) {
-            return response('No pending found', 404);
+            return response('保留中の決済が見つかりません', 404);
         }
         // 冪等性: 既に付与済みならスキップ
         if (CreditHistory::where('order_id', $purchaseUid)->exists()) {
@@ -70,7 +81,9 @@ class ChargeController extends Controller
                 'granted_at' => now(),
             ]);
             $user->increment('credit_balance', $pending->credit);
-            $pending->delete();
+            $pending->claimed_user_id = $user->id;
+            $pending->claimed_at = now();
+            $pending->save();
         });
         Log::info('charge completed', ['purchase_uid' => $purchaseUid, 'email' => $email, 'user_id' => $user->id]);
         return redirect()->route('dashboard')->with('status', 'Charged successfully');

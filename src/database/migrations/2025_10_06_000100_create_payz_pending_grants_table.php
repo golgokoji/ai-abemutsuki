@@ -9,6 +9,7 @@ return new class extends Migration {
         Schema::create('payz_pending_grants', function (Blueprint $table) {
             $table->id();
             $table->string('purchase_uid')->unique();
+            $table->string('product_uid');
             $table->string('payment_email')->nullable();
             $table->integer('amount')->default(0);
             $table->integer('credit')->default(0);

@@ -14,49 +14,55 @@ use Illuminate\Support\Facades\Log;
  * バリデーション・冪等性ガード（重複防止）・ログ記録を行った上で、後続のビジネスロジックに渡します。
  *
  * ## 想定されるリクエスト例（JSON）
- * ```json
+ * 
+ * webhookで来るデータ
  * {
- *   "subscription_uid": "sub_1234567890",   // 定期購読ごとに一意
- *   "membership_uid": "m_abcde",            // 定期購読商品ごとに一意
- *   "user_uid": "u_999",                    // 任意: ユーザー一意ID（null の場合あり）
- *   "email": "user@example.com",            // メールアドレス
- *   "status": "subscribing",                // "subscribing" | "void"
- *   "name_last": "上田",                     // 姓（null 可）
- *   "name_first": "浩司",                   // 名（null 可）
- *   "kana_last": "うえだ",                  // せい（null 可）
- *   "kana_first": "こうじ",                 // めい（null 可）
- *   "prefecture": "東京都",                 // null 可
- *   "city": "港区",                         // null 可
- *   "address1": "芝公園4-2-8",             // null 可
- *   "address2": "東京タワー201",           // null 可
- *   "zip": "1050011",                       // null 可
- *   "tel": "090-5811-6238",                // null 可
- *   "fax": null,
- *   "dob": null,
- *   "client_ip": "203.0.113.10",           // 購入時IP（null 可）
- *   "client_ua": "Mozilla/5.0"             // 購入時UA（null 可）
+ *     "received_at": "2025-10-06T21:14:36+09:00",
+ *     "remote_addr": "44.213.72.139",
+ *     "method": "POST",
+ *     "uri": "/pages/webhook/webhook.php",
+ *     "query": [],
+ *     "headers": {
+ *         "Content-Type": "application/json",
+ *         "Accept-Encoding": "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+ *         "User-Agent": "Ruby",
+ *         "Connection": "close",
+ *         "Host": "abe-labo.biz",
+ *         "Content-Length": "498"
+ *     },
+ *     "body_raw": "{\"purchase_uid\":\"P_NOU2NKJQ\",\"product_uid\":\"pd_fuxs2lgeyrzl5jat\",\"user_uid\":\"ur_nhkp4j9qvp4hyqom\",\"email\":\"golgokoji@gmail.com\",\"status\":\"purchased\",\"name_last\":\"ueda\",\"name_first\":\"koji\",\"kana_last\":null,\"kana_first\":null,\"prefecture\":null,\"city\":null,\"address1\":null,\"address2\":null,\"zip\":null,\"tel\":\"09058116238\",\"fax\":null,\"dob\":null,\"client_ip\":\"220.100.20.85\",\"client_ua\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\"}",
+ *     "json": {
+ *         "purchase_uid": "P_NOU2NKJQ",
+ *         "product_uid": "pd_fuxs2lgeyrzl5jat",
+ *         "user_uid": "ur_nhkp4j9qvp4hyqom",
+ *         "email": "golgokoji@gmail.com",
+ *         "status": "purchased",
+ *         "name_last": "ueda",
+ *         "name_first": "koji",
+ *         "kana_last": null,
+ *         "kana_first": null,
+ *         "prefecture": null,
+ *         "city": null,
+ *         "address1": null,
+ *         "address2": null,
+ *         "zip": null,
+ *         "tel": "09058116238",
+ *         "fax": null,
+ *         "dob": null,
+ *         "client_ip": "220.100.20.85",
+ *         "client_ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+ *     }
  * }
- * ```
- *
- * ## このコントローラーが「していること / する予定のこと」
- * 1. **バリデーション**：`PayzWebhookRequest` で必須項目・型・値域を検証します。
- * 2. **冪等性ガード**：`subscription_uid` を鍵に短時間のロックを取り、同一イベントの重複処理を回避します。
- * 3. **ロギング**：受信データ（サニタイズ後）や重複検出をログ出力します。
- * 4. **（次の実装）アプリ処理本体**：
- *    - `abelabo_user_settings` テーブルを **メール／電話番号／氏名(姓・名)** 等で照合し、該当 `users` を特定
- *    - `subscription_uid` を「注文ID」とみなし、一意制を担保して **クレジット付与** を記録（`credit_histories` など）
- *    - トランザクションで正確に反映。二重登録の防止（DBユニーク制約 or 既存確認）
- *    - 処理結果をログ出力
- *
- * ## 実装メモ（Copilot向け TODO）
- * - [ ] Action/Service 層：`HandlePayzWebhookAction::run(array $data): void` を用意し、DB処理を集約
- * - [ ] User 解決ロジック：
- *       1) email 完全一致
- *       2) tel 完全一致
- *       3) 氏名（name_last/name_first）一致の補助
- * - [ ] `subscription_uid` をキーに idempotency：DB 側にユニーク制約（例：`credit_histories.subscription_uid UNIQUE`）
- * - [ ] `status` が "void" のときは付与せず、必要なら取り消し処理（設計に応じて）
- * - [ ] 例外時はログ＆204を返す（再送前提のため idempotent に保つ）
+ * 
+ * このウェブフックが送られると、payzから購入者あてに
+ * クレジット付与URLがメールで送られる
+ * /charge?purchase_uid=xxxxx&email=yyyy
+ * 
+ * 以降はChargeControllerでクレジット付与処理を行う
+ * 決済時のEMAILとログインユーザーのEMAILは異なる場合がある
+ * purchase_uid=xxxxx&email=yyyy
+ * このパラメータはwebhookのデータが正しいかチェックするために使う
+ * 
  */
 class PayzWebhookController
 {

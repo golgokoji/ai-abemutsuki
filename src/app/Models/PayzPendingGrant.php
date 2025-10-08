@@ -10,9 +10,10 @@ class PayzPendingGrant extends Model
 
     protected $fillable = [
         'purchase_uid',
+        'product_uid',
         'payment_email',
         'amount',
-    'credit',
+        'credit',
         'claimed_user_id',
         'claimed_at',
         'expires_at',

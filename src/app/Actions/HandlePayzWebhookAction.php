@@ -48,6 +48,7 @@ class HandlePayzWebhookAction
                 }
                 \App\Models\PayzPendingGrant::create([
                     'purchase_uid' => $data['purchase_uid'],
+                    'product_uid' => $data['product_uid'] ?? null,
                     'payment_email' => $data['email'] ?? null,
                     'credit' => $plan->credit,
                     'amount' => $plan->amount,

@@ -40,6 +40,7 @@ class AdminPanelProvider extends PanelProvider
                 UserResource::class,
                 CouponInitialCreditResource::class,
                 PaymentPlanResource::class,
+                \App\Filament\Resources\PayzPendingGrantResource::class,
             ])
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
