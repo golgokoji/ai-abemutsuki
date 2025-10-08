@@ -18,6 +18,8 @@ Homestead.yaml
 /.vscode/
 /.history/
 /src/secrets/
+# 開発用ドキュメントを除外
+_docs/
 _docs/*.json
 *.credentials.json
 *.service-account.json
