@@ -20,6 +20,10 @@ return Application::configure(basePath: dirname(__DIR__))
     $middleware->append(\App\Http\Middleware\TrustProxies::class);
     // SessionTimer（セッション初期化直後の計測ログ）
     $middleware->appendToGroup('web', \App\Http\Middleware\SessionTimer::class);
+    // 標準ミドルウェアをラッパーに完全置換
+    $middleware->replaceInGroup('web', \Illuminate\Auth\Middleware\Authenticate::class, \App\Http\Middleware\MyAuthenticate::class);
+    $middleware->replaceInGroup('web', \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class, \App\Http\Middleware\MyVerifyCsrfToken::class);
+    $middleware->replaceInGroup('web', \Illuminate\Cookie\Middleware\EncryptCookies::class, \App\Http\Middleware\MyEncryptCookies::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
