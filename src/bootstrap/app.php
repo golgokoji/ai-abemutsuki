@@ -16,8 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->job(new \App\Jobs\ImportInfotopSalesJob)->dailyAt('03:00');
     })
     ->withMiddleware(function (Middleware $middleware): void {
-        //
-        $middleware->append(\App\Http\Middleware\TrustProxies::class);
+    // TrustProxies
+    $middleware->append(\App\Http\Middleware\TrustProxies::class);
+    // SessionTimer（セッション初期化直後の計測ログ）
+    $middleware->appendToGroup('web', \App\Http\Middleware\SessionTimer::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
