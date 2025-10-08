@@ -33,9 +33,6 @@ class TrustProxies extends Middleware
      */
     public function handle($request, \Closure $next)
     {
-        \App\Support\DebugTimer::log(__FILE__, __LINE__, 'TrustProxies handle開始');
-        $response = parent::handle($request, $next);
-        \App\Support\DebugTimer::log(__FILE__, __LINE__, 'TrustProxies handle終了');
-        return $response;
+    return parent::handle($request, $next);
     }
 }

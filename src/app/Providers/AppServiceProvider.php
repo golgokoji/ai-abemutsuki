@@ -23,7 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        \App\Support\DebugTimer::log(__FILE__, __LINE__, 'AppServiceProvider boot');
 
 
         // Flatpickr日本語化（Filament管理画面のカレンダー）
