@@ -18,7 +18,11 @@ class DebugTimer
         $now = microtime(true);
         $ms = ($now - $start) * 1000;
         $ms = number_format($ms, 2);
-    $msg = "【処理計測】{$label} - {$file}:{$line} ここまでに {$ms}ミリ秒かかりました";
-    Log::info($msg);
+        $msg = "【処理計測】{$label} - {$file}:{$line} ここまでに {$ms}ミリ秒かかりました";
+        try {
+            Log::info($msg);
+        } catch (\Throwable $e) {
+            error_log($msg);
+        }
     }
 }
