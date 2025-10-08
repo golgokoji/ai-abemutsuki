@@ -12,12 +12,15 @@ use App\Http\Controllers\AbelaboSettingsController;
 
 use Illuminate\Support\Facades\Log;
 
-app()->terminating(function () {
-    $time = round((microtime(true) - LARAVEL_START) * 1000, 2);
-    Log::info("Request total: {$time}ms");
+
+$GLOBALS['__TIMESTAMP__'] = microtime(true);
+
+
+// ルートクロージャの最初
+Route::get('/test', function () {
+    \App\Support\DebugTimer::log(__FILE__, __LINE__, 'testルート開始');
+    // ...処理...
 });
-
-
 /*
 |--------------------------------------------------------------------------
 | Public routes
