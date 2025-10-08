@@ -65,12 +65,12 @@ cat ~/.ssh/id_ed25519.pub
 接続コマンドを実行：
 
 ```bash
-ssh -i ~/.ssh/id_ed25519 golgokoji@v2009.coreserver.jp -p 10022
+ssh -i ~/.ssh/id_ed25519 golgokoji@v2009.coreserver.jp -p 22
 ```
 
 - `golgokoji` → CoreServerのアカウント名  
 - `v2009.coreserver.jp` → CoreServerホスト名  
-- `-p 10022` → SSHポート番号（通常10022）
+- `-p 10022` → SSHポート番号（通常22 or 10022）
 
 成功時の例：
 
