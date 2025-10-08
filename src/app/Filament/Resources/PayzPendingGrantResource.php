@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PayzPendingGrantResource\Pages;
 use App\Models\PayzPendingGrant;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -17,7 +17,7 @@ class PayzPendingGrantResource extends Resource
     protected static ?string $navigationLabel = 'Payz Pending Grants';
     protected static ?string $navigationGroup = '決済管理';
 
-    public static function form(Form $form): Form
+    public static function form(Forms\Form $form): Forms\Form
     {
         return $form
             ->schema([
@@ -38,7 +38,7 @@ class PayzPendingGrantResource extends Resource
             ]);
     }
 
-    public static function table(Table $table): Table
+    public static function table(Tables\Table $table): Tables\Table
     {
         return $table
             ->columns([

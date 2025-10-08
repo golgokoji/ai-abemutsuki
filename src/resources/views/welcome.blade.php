@@ -192,10 +192,25 @@
   </section>
   <section id="pricing" class="py-20 bg-white">
     <div class="container mx-auto px-4">
-      <div class="text-center mb-16">
-        <h3 class="text-4xl font-bold mb-4">料金プラン</h3>
-        <p class="text-xl text-gray-600 max-w-2xl mx-auto">あなたのニーズに合わせて選べる、シンプルで分かりやすい料金体系</p>
-      </div>
+<div class="text-center mb-20 relative">
+  <div class="inline-block bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-600 text-white text-sm font-semibold tracking-wider px-5 py-2 rounded-full shadow-md mb-6">
+    PRICE PLAN
+  </div>
+  <h3 class="text-4xl md:text-5xl font-extrabold mb-4 text-gray-900 drop-shadow-sm">
+    料金プラン
+  </h3>
+  <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+    あなたのニーズに合わせて選べる、<br class="hidden md:block">
+    シンプルで分かりやすい料金体系です。
+  </p>
+
+  <!-- 飾りライン -->
+  <div class="w-24 h-1 bg-gradient-to-r from-amber-400 to-yellow-500 mx-auto mt-6 rounded-full"></div>
+
+  <!-- 背景装飾（ぼかしの光）-->
+  <div class="absolute inset-0 -z-10 opacity-30 blur-3xl bg-gradient-to-br from-yellow-100 via-white to-amber-200"></div>
+</div>
+
       <div class="bg-blue-50 p-8 rounded-lg shadow-md mb-12 max-w-3xl mx-auto text-center">
         <h4 class="text-3xl font-bold text-blue-700 mb-4">【まずは無料お試し】</h4>
         <p class="text-lg text-gray-700 mb-6">最大5分のあべむつき動画が無料で作成できます</p>
