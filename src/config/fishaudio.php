@@ -1,6 +1,7 @@
 <?php
 
 return [
+    "api_key"      => env("FISH_AUDIO_API_KEY", ""),
     "api_base"     => "https://api.fish.audio",
     "model"        => "s1",
     "reference_id" => "9ae776f976914160856436e1ab2b2b88",

@@ -11,7 +11,8 @@ class FishAudioService
     public function generate(string $text, string $fileName, array $overrides = []): array
     {
         $cfg      = config('fishaudio');
-        $apiKey   = env('FISH_AUDIO_API_KEY');
+        
+        $apiKey   = $cfg['api_key'] ?? '';
         $endpoint = rtrim($cfg['api_base'] ?? 'https://api.fish.audio', '/') . '/v1/tts';
 
         $body = [
