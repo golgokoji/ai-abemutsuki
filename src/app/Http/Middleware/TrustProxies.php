@@ -23,4 +23,19 @@ class TrustProxies extends Middleware
                         | Request::HEADER_X_FORWARDED_HOST
                         | Request::HEADER_X_FORWARDED_PORT
                         | Request::HEADER_X_FORWARDED_PROTO;
+
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle($request, \Closure $next)
+    {
+        \App\Support\DebugTimer::log(__FILE__, __LINE__, 'TrustProxies handle開始');
+        $response = parent::handle($request, $next);
+        \App\Support\DebugTimer::log(__FILE__, __LINE__, 'TrustProxies handle終了');
+        return $response;
+    }
 }
