@@ -22,7 +22,9 @@ class DebugTimer
         try {
             Log::info($msg);
         } catch (\Throwable $e) {
-            error_log($msg);
+            $logPath = base_path('storage/logs/laravel.log');
+            $timestamp = date('[Y-m-d H:i:s]');
+            file_put_contents($logPath, $timestamp . ' ' . $msg . "\n", FILE_APPEND);
         }
     }
 }
