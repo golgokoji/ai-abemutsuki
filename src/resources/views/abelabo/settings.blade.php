@@ -1,3 +1,4 @@
+
 <x-app-layout>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -9,12 +10,34 @@
                             <button type="button" onclick="document.getElementById('flash-message').style.display='none'" class="absolute top-2 right-2 text-green-800 hover:text-green-600 text-xl font-bold focus:outline-none">&times;</button>
                         </div>
                     @endif
-                    <h2 class="text-xl font-semibold mb-6">あべラボ連動 登録情報</h2>
+                    <h2 class="text-xl font-semibold mb-6">あべラボ連動</h2>
+  <!-- キャンペーン告知 -->
+  <div class="p-4 bg-blue-50 border-l-4 border-blue-400 text-blue-900 rounded">
+    <p class="font-bold mb-1">🎁 キャンペーン実施中！</p>
+    <p class="leading-relaxed">
+      今、あべラボに参加すると、<span class="font-semibold">AIあべむつきで利用できるクレジットが毎月付与</span>されます。<br>
+      まだ参加されていない方は、お得なこのタイミングでぜひあべラボにご参加ください！
+    </p>
+
+    <div class="mt-8">
+        <a href="" target="_blank" class="block px-4 py-3 rounded bg-blue-100 text-blue-800 font-semibold text-center hover:bg-blue-200">
+            あべラボにまだ参加していない方はこちら
+        </a>
+    </div>
+
+</div>
+
+
+
+<br /><br />
                     <div class="mb-6 p-4 bg-gray-100 border-l-4 border-blue-300 text-gray-700">
-                        <strong>注意：</strong>決済システムと連動させるために、<br>
-                        <span class="font-bold">あべラボ入会時（決済時）の情報</span>を必ず正確に入力してください。<br>
-                        （会員情報とは異なる場合があります）<br>
+
+
+                        <strong>あべラボに参加済みの方は、以下のフォームから
+                        <span class="font-bold">あべラボ入会時（決済時）の情報</span>を正確に入力してください。<br>
+                        （本システムの会員情報とは異なる場合があります）<br>
                     </div>
+
                     <form method="POST" action="#">
                         @csrf
                         <div class="mb-4">

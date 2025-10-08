@@ -13,12 +13,12 @@ class PayzWebhookRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
-            'subscription_uid' => ['required','string','max:191'],
-            'membership_uid'   => ['required','string','max:191'],
+        $status = $this->input('status');
+        $base = [
             'user_uid'         => ['nullable','string','max:191'],
             'email'            => ['required','email','max:255'],
-            'status'           => ['required','string','in:subscribing,void'],
+            'status'           => ['required','string','in:purchased,subscribing,void'],
+            'product_uid'      => ['required','string','max:191'],
             'name_last'        => ['nullable','string','max:191'],
             'name_first'       => ['nullable','string','max:191'],
             'kana_last'        => ['nullable','string','max:191'],
@@ -34,5 +34,9 @@ class PayzWebhookRequest extends FormRequest
             'client_ip'        => ['nullable','ip'],
             'client_ua'        => ['nullable','string','max:1024'],
         ];
+        if ($status === 'purchased') {
+            $base['purchase_uid'] = ['required','string','max:191'];
+        }
+        return $base;
     }
 }
