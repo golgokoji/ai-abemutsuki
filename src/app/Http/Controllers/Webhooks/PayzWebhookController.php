@@ -101,6 +101,12 @@ class PayzWebhookController
         // 1) Validate & sanitize input
         $data = $request->validated();
 
+        // 受信データ全体をinfoログに出力
+        Log::info('payz webhook received', [
+            'raw' => $request->all(),
+            'validated' => $data,
+        ]);
+
         // 2) statusによってロックキー分岐
         $lockKey = ($data['status'] ?? '') === 'purchased'
             ? 'payz:' . ($data['purchase_uid'] ?? 'unknown')
