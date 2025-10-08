@@ -14,6 +14,11 @@ use App\Http\Controllers\AbelaboSettingsController;
 | Public routes
 |--------------------------------------------------------------------------
 */
+// クレジット付与リンク（認証必須）
+Route::middleware(['auth'])->group(function () {
+    Route::get('/charge', [\App\Http\Controllers\ChargeController::class, 'show'])->name('charge.show');
+    Route::post('/charge', [\App\Http\Controllers\ChargeController::class, 'store'])->name('charge.store');
+});
 Route::get('/', fn () => view('welcome'))->name('home');
 
 /*
@@ -42,12 +47,20 @@ Route::get('/auth/google/callback', function () {
     );
 
     Auth::login($user);
-    return redirect()->route('register.complete'); // ここを変更
+    // 新規登録かどうか判定（created_atとupdated_atがほぼ同じなら新規）
+    if ($user->created_at->eq($user->updated_at)) {
+        return redirect()->route('register.complete');
+    } else {
+        return redirect()->route('dashboard');
+    }
 })->name('google.callback');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/register/complete', [\App\Http\Controllers\RegisterCompleteController::class, 'show'])->name('register.complete');
     Route::post('/register/complete', [\App\Http\Controllers\RegisterCompleteController::class, 'store'])->name('register.complete.store');
+    // クーポン入力フォーム
+    Route::get('/coupon', [\App\Http\Controllers\CouponController::class, 'show'])->name('coupon.form');
+    Route::post('/coupon', [\App\Http\Controllers\CouponController::class, 'store'])->name('coupon.store');
 });
 
 /*
@@ -105,7 +118,13 @@ Route::get('/terms', function() {
 Route::get('/privacy', function() {
     return view('privacy');
 })->name('privacy');
-
+Route::get('/law', function() {
+    return view('law');
+})->name('law');
+// FAQページ
+Route::get('/faq', function () {
+    return view('faq');
+});
 /*
 |--------------------------------------------------------------------------
 | Breeze が生成する auth ルートを最後に読み込み

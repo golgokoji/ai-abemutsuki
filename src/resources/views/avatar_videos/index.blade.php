@@ -40,10 +40,9 @@
 
                                     <div class="flex gap-3 mt-2 justify-end">
                                         @php
-                                            use Illuminate\Support\Facades\Storage;
                                             $playUrl = $vd->file_url
                                                 ?? $vd->public_url
-                                                ?? (!empty($vd->file_path) ? Storage::url($vd->file_path) : null);
+                                                ?? (!empty($vd->file_path) ? \Storage::url($vd->file_path) : null);
                                         @endphp
                                         @if($playUrl)
                                             <a href="{{ $playUrl }}" target="_blank"

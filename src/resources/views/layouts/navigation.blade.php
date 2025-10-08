@@ -24,9 +24,6 @@
                     <x-nav-link :href="route('avatar_videos.index')" :active="request()->routeIs('avatar_videos.index')">
                         動画一覧
                     </x-nav-link>
-                        <x-nav-link :href="route('credit_history')" :active="request()->routeIs('credit_history')">
-                            クレジット履歴
-                        </x-nav-link>
 
                 </div>
             </div>
@@ -52,11 +49,19 @@
                     </x-slot>
 
                     <x-slot name="content">
+
                         <x-dropdown-link :href="route('profile.edit')">
                             登録情報
                         </x-dropdown-link>
+                        <x-dropdown-link :href="route('credit_history')">
+                            クレジット履歴
+                        </x-dropdown-link>
                         <x-dropdown-link :href="route('abelabo.settings')">
                             あべラボ連動
+                        </x-dropdown-link>
+
+                        <x-dropdown-link :href="route('coupon.form')">
+                            クーポンの利用
                         </x-dropdown-link>
 
                         <!-- Authentication -->
