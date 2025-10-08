@@ -40,6 +40,17 @@
                         </div>
                     </div>
                 @endif
+                @if(session('status'))
+                    <div class="max-w-2xl mx-auto my-4">
+                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative flex items-center shadow">
+                            <svg class="w-6 h-6 mr-2 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="font-semibold">{{ session('status') }}</span>
+                        </div>
+                    </div>
+                @endif
+
                 {{ $slot }}
             </main>
         </div>

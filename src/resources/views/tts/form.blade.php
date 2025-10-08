@@ -11,9 +11,7 @@
             {{-- 音声生成フォームカード --}}
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    @if(session('status'))
-                        <div class="mb-4 text-green-600">{{ session('status') }}</div>
-                    @endif
+
                     <form method="post" action="{{ route('tts.submit') }}" class="space-y-4">
                         @csrf
                         <div>
