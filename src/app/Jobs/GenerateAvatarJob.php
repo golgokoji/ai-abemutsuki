@@ -50,6 +50,17 @@ class GenerateAvatarJob implements ShouldQueue
 
         if (!$voice) return;
 
+        // クレジット残高チェック
+        $user = $voice->user;
+        if (!$user || $user->credit_balance <= 0) {
+            Log::warning('GenerateAvatarJob: クレジット残高不足のためfail扱い', [
+                'voice_id' => $this->voiceId,
+                'user_id' => $user ? $user->id : null,
+                'credit_balance' => $user ? $user->credit_balance : null,
+            ]);
+            throw new \Exception('クレジット残高が不足しています');
+        }
+
         // 音声URLを決定（絶対URLになるように）
         $audioUrl = $voice->public_url
             ?: url(Storage::url(str_replace('public/', '', $voice->file_path)));
