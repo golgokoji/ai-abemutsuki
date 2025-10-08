@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PayzPendingGrantResource\Pages;
 use App\Models\PayzPendingGrant;
-use Filament\Forms;
+use Filament\Forms\Form;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -17,7 +17,7 @@ class PayzPendingGrantResource extends Resource
     protected static ?string $navigationLabel = 'Payz Pending Grants';
     protected static ?string $navigationGroup = '決済管理';
 
-    public static function form(Forms\Form $form): Forms\Form
+    public static function form(Form $form): Form
     {
         return $form
             ->schema([
