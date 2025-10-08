@@ -65,18 +65,20 @@ class GenerateAvatarJob implements ShouldQueue
         $audioUrl = $voice->public_url
             ?: url(Storage::url(str_replace('public/', '', $voice->file_path)));
 
-        // HeyGen APIキーはenvから取得
-        $apiKey = env('HEYGEN_API_KEY');
+        // HeyGen設定値はconfigから取得
+        $cfg = config('heygen');
+        $apiKey = $cfg['api_key'] ?? null;
         if (empty($apiKey)) {
             AvatarVideo::where('voice_id', $voice->id)
                 ->latest()->first()?->update([
                     'status' => 'failed',
-                    'provider_response' => ['error' => 'HEYGEN_API_KEYが未設定です（.env）'],
+                    'provider_response' => ['error' => 'HEYGEN_API_KEYが未設定です（config/heygen.php）'],
                 ]);
             return;
         }
 
-        $avatarId = env('HEYGEN_AVATAR_ID');
+        $avatarId = $cfg['avatar_id'] ?? null;
+        $dimension = $cfg['dimension'] ?? ['width' => 1280, 'height' => 720];
         // v2 API: payload構造
         $payload = [
             "video_inputs" => [[
@@ -94,7 +96,7 @@ class GenerateAvatarJob implements ShouldQueue
                     "value" => "#000000",
                 ],
             ]],
-            "dimension" => ["width" => 1280, "height" => 720],
+            "dimension" => $dimension,
         ];
 
         // DBレコード作成（user_idもセット）
