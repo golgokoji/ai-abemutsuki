@@ -22,7 +22,7 @@
                                 <li class="p-3 border rounded">
                                     <div>
                                         <span class="inline-block text-xs px-2 py-1 rounded bg-gray-100 mr-2">#{{ $v->id }}</span>
-                                        <span class="font-medium">{{ optional($v->script)->title ?? '(無題)' }}</span>
+                                        <span class="font-medium">{{ displayTitleOrText($v->script) }}</span>
                                         <span class="ml-2 text-sm text-gray-500">[{{ $v->status }}]</span>
                                     </div>
                                     <div class="flex gap-3 mt-2 justify-end">

@@ -66,28 +66,54 @@ class PayzWebhookController
      * @param  \App\Http\Requests\PayzWebhookRequest  $request
      * @return \Illuminate\Http\Response  204 No Content（常に本文なし）
      *
-     * @example curl -X POST http://localhost:8080/api/webhooks/payz \
-     *   -H "Content-Type: application/json" \
-     *   -d '{"subscription_uid":"sub_123","membership_uid":"m_1","email":"user@example.com","status":"subscribing"}'
-     */
+    * @example curl -X POST http://localhost:8080/api/webhooks/payz \
+    *   -H "Content-Type: application/json" \
+    *   -d '{
+    *     "purchase_uid": "P_NOU2NKJQ",
+    *     "product_uid": "pd_fuxs2lgeyrzl5jat",
+    *     "user_uid": "ur_nhkp4j9qvp4hyqom",
+    *     "email": "golgokoji@gmail.com",
+    *     "status": "purchased",
+    *     "name_last": "ueda",
+    *     "name_first": "koji",
+    *     "kana_last": null,
+    *     "kana_first": null,
+    *     "prefecture": null,
+    *     "city": null,
+    *     "address1": null,
+    *     "address2": null,
+    *     "zip": null,
+    *     "tel": "09058116238",
+    *     "fax": null,
+    *     "dob": null,
+    *     "client_ip": "220.100.20.85",
+    *     "client_ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+    *   }'
+    */
     public function __invoke(PayzWebhookRequest $request): Response
     {
         // 1) Validate & sanitize input
         $data = $request->validated();
 
-        // 2) Simple idempotency guard (short lock by subscription_uid)
-        //    同一 subscription_uid の並列／短時間の重複実行を抑止
-        $lock = Cache::lock('payz:'.$data['subscription_uid'], 10);
+        // 2) statusによってロックキー分岐
+        $lockKey = ($data['status'] ?? '') === 'purchased'
+            ? 'payz:' . ($data['purchase_uid'] ?? 'unknown')
+            : 'payz:' . ($data['subscription_uid'] ?? 'unknown');
+        $lock = Cache::lock($lockKey, 10);
         if (! $lock->get()) {
             Log::warning('payz webhook duplicate (locked)', [
-                'subscription_uid' => $data['subscription_uid'],
+                'lock_key' => $lockKey,
+                'purchase_uid' => $data['purchase_uid'] ?? null,
+                'subscription_uid' => $data['subscription_uid'] ?? null,
             ]);
             return response()->noContent(); // 204
         }
 
         try {
             Log::info('payz webhook validated', [
-                'subscription_uid' => $data['subscription_uid'],
+                'lock_key' => $lockKey,
+                'purchase_uid' => $data['purchase_uid'] ?? null,
+                'subscription_uid' => $data['subscription_uid'] ?? null,
                 'membership_uid'   => $data['membership_uid'] ?? null,
                 'email'            => $data['email'] ?? null,
                 'status'           => $data['status'] ?? null,

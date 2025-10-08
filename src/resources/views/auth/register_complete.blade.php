@@ -7,7 +7,7 @@
     </x-slot>
 
     <div class="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow">
-        <p class="mb-4">ようこそ、{{ $user->name }}さん！<br>初期クレジット付与のため、クーポンコードをお持ちの場合はご入力ください。</p>
+        <p class="mb-4">ようこそ、{{ $user->name }}さん！<br>クーポンコードをお持ちの場合はご入力ください。</p>
         <form method="POST" action="{{ route('register.complete.store') }}">
             @csrf
             <div class="mb-4">

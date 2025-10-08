@@ -10,6 +10,7 @@ use Filament\Pages;
 use App\Filament\Resources\CreditHistoriesResource;
 use App\Filament\Resources\UserResource;
 use App\Filament\Resources\CouponInitialCreditResource;
+use App\Filament\Resources\PaymentPlanResource;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -38,6 +39,7 @@ class AdminPanelProvider extends PanelProvider
                 CreditHistoriesResource::class,
                 UserResource::class,
                 CouponInitialCreditResource::class,
+                PaymentPlanResource::class,
             ])
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
