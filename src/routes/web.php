@@ -16,10 +16,6 @@ app()->terminating(function () {
     $time = round((microtime(true) - LARAVEL_START) * 1000, 2);
     Log::info("Request total: {$time}ms");
 });
-Route::get('/log-test', function () {
-    Log::debug('これは /log-test のルートから出したテストログです');
-    return 'ログテストOK';
-});
 
 
 /*
