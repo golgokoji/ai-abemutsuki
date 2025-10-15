@@ -50,6 +50,12 @@
                                                 再生
                                             </a>
                                         @endif
+                                        {{-- 削除ボタン --}}
+                                        <form method="POST" action="{{ route('avatar_videos.destroy', $vd->id) }}" onsubmit="return confirm('本当に削除しますか？');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm">削除</button>
+                                        </form>
                                     </div>
                                 </li>
                             @endforeach

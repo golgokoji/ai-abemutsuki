@@ -91,6 +91,8 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     // 動画一覧
     Route::get('/avatar-videos', [\App\Http\Controllers\AvatarVideoController::class, 'index'])->name('avatar_videos.index');
+    // 動画削除
+    Route::delete('/avatar-videos/{id}', [\App\Http\Controllers\AvatarVideoController::class, 'destroy'])->name('avatar_videos.destroy');
 
     // Breeze 既定のダッシュボード
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
