@@ -20,7 +20,7 @@ class GenerateAvatarJob implements ShouldQueue
 
     public int $voiceId;
     public $tries = 3;
-    public $timeout = 180;
+    public $timeout = 1200;
 
     public function __construct(int $voiceId)
     {
@@ -141,8 +141,8 @@ class GenerateAvatarJob implements ShouldQueue
         ]);
 
         // 2) ポーリングで完了待ち
-        $maxTries = 60;
-        $interval = 30;
+        $maxTries = 80;
+        $interval = 15;
         $lastStatusData = null;
         for ($i = 1; $i <= $maxTries; $i++) {
             sleep($interval);
