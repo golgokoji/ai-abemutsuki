@@ -27,3 +27,4 @@ _docs/*.json
 /tmp/
 /storage/logs/
 /*.log
+/tmp
