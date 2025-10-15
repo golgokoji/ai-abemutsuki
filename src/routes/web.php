@@ -17,6 +17,10 @@ $GLOBALS['__TIMESTAMP__'] = microtime(true);
 
 
 // ルートクロージャの最初
+// クレジットチャージページ（誰でもアクセス可）
+Route::get('/charge-page', function() {
+    return view('charge');
+})->name('charge.page');
 Route::get('/test', function () {
     \App\Support\DebugTimer::log(__FILE__, __LINE__, 'testルート開始');
     // ...処理...

@@ -20,8 +20,20 @@
                         </div>
                         <div>
                             <label class="block font-medium">台本テキスト</label>
-                            <textarea name="text" rows="8" class="mt-1 block w-full border border-gray-300 focus:border-indigo-500 rounded px-3 py-2">{{ old('text') }}</textarea>
+                            <textarea id="scriptText" name="text" rows="8" maxlength="10000" class="mt-1 block w-full border border-gray-300 focus:border-indigo-500 rounded px-3 py-2">{{ old('text') }}</textarea>
+                            <div id="charCount" class="text-xs text-gray-500 mt-1"></div>
                             @error('text')<div class="text-red-600 mt-1">{{ $message }}</div>@enderror
+                            <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const textarea = document.getElementById('scriptText');
+                                const counter = document.getElementById('charCount');
+                                function updateCount() {
+                                    counter.textContent = `${textarea.value.length} / 10000`;
+                                }
+                                textarea.addEventListener('input', updateCount);
+                                updateCount();
+                            });
+                            </script>
                         </div>
                         <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">音声生成を依頼（キュー投入）</button>
                     </form>
