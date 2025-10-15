@@ -54,13 +54,15 @@ class HeygenSyncVideos extends Command
                 : (int)(env('HEYGEN_STALLED_MINUTES', 10));
 
             $cutoff = now()->subMinutes(max(1, $stalledMin));
+            $maxAge = now()->subHours(24);
 
-            // ★ 10分（既定）以上更新がない processing を対象
+            // ★ 10分（既定）以上更新がない processing かつ 24時間以内のみ対象
             $q = AvatarVideo::query()
                 ->where('provider', 'heygen')
                 ->where('status', 'processing')
                 ->whereNotNull('video_id')
                 ->where('updated_at', '<=', $cutoff)
+                ->where('updated_at', '>=', $maxAge)
                 ->orderByDesc('id');
 
             if ($voiceId !== '') {
