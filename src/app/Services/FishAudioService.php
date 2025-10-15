@@ -11,7 +11,7 @@ class FishAudioService
     public function generate(string $text, string $fileName, array $overrides = []): array
     {
         $cfg      = config('fishaudio');
-        
+
         $apiKey   = $cfg['api_key'] ?? '';
         $endpoint = rtrim($cfg['api_base'] ?? 'https://api.fish.audio', '/') . '/v1/tts';
 
@@ -36,28 +36,32 @@ class FishAudioService
         // --- ここでcurlコマンドを生成 ---
         $json = json_encode($body, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         $curl = "curl -X POST \"" . $endpoint . "\" \\\n"
-              . "  -H \"Authorization: Bearer " . $apiKey . "\" \\\n"
-              . "  -H \"Content-Type: application/json\" \\\n"
-              . "  -d '" . $json . "'";
+            . "  -H \"Authorization: Bearer " . $apiKey . "\" \\\n"
+            . "  -H \"Content-Type: application/json\" \\\n"
+            . "  -d '" . $json . "'";
 
         Log::info("[FishAudio cURL] " . $curl);
 
         // --- 実際のリクエスト ---
         $resp = Http::withHeaders([
-                "Authorization" => "Bearer " . $apiKey,
-                "Content-Type"  => "application/json",
-                "Accept"        => "audio/mpeg",
-            ])->post($endpoint, $body);
+            "Authorization" => "Bearer " . $apiKey,
+            "Content-Type"  => "application/json",
+            "Accept"        => "audio/mpeg",
+        ])->withOptions([
+            'connect_timeout' => 15,   // 接続確立に最大15秒
+            'timeout'         => 180,  // 全体リクエストを最大120秒待つ
+            'read_timeout'    => 120,  // 読み取り中断の猶予
+        ])->post($endpoint, $body);
 
         if (!$resp->ok()) {
             return ["success" => false, "path" => null, "error" => $resp->body()];
         }
 
-    $relPath = "voices/" . $fileName;
-    Storage::disk("s3")->put($relPath, $resp->body());
+        $relPath = "voices/" . $fileName;
+        Storage::disk("s3")->put($relPath, $resp->body());
 
-    $s3Url = rtrim(config('filesystems.disks.s3.url'), '/') . '/' . ltrim($relPath, '/');
+        $s3Url = rtrim(config('filesystems.disks.s3.url'), '/') . '/' . ltrim($relPath, '/');
 
-    return ["success" => true, "path" => $relPath, "url" => $s3Url, "error" => null];
+        return ["success" => true, "path" => $relPath, "url" => $s3Url, "error" => null];
     }
 }

@@ -17,6 +17,10 @@ $GLOBALS['__TIMESTAMP__'] = microtime(true);
 
 
 // ルートクロージャの最初
+// 台本作成方法ガイドページ
+Route::get('/about-make-scripts', function() {
+    return view('about_make_scripts');
+})->name('about.make.scripts');
 // クレジットチャージページ（誰でもアクセス可）
 Route::get('/charge-page', function() {
     return view('charge');
