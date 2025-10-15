@@ -100,24 +100,25 @@ class GenerateAvatarJob implements ShouldQueue
         ];
 
 
-        // DBレコード作成（voice_id+providerで重複防止）
-        $video = AvatarVideo::firstOrCreate(
-            [
-                'voice_id' => $voice->id,
-                'provider' => 'heygen',
-            ],
-            [
-                'user_id'  => $voice->user_id,
-                'status'   => 'processing',
-                'provider_response' => null,
-            ]
-        );
+        // 既存レコード取得（voice_id+provider）
+        $video = AvatarVideo::where('voice_id', $voice->id)
+            ->where('provider', 'heygen')
+            ->latest()->first();
 
-        // 既に動画生成済み・処理中ならJobをスキップ
-        if (in_array($video->status, ['succeeded', 'processing'], true)) {
-            Log::info('動画生成Job: 既存レコードあり、処理スキップ', ['voice_id' => $voice->id, 'status' => $video->status]);
+        // statusがprocessingならスキップ
+        if ($video && $video->status === 'processing') {
+            Log::info('動画生成Job: 処理中のためスキップ', ['voice_id' => $voice->id]);
             return;
         }
+
+        // 新規作成（または再生成）
+        $video = AvatarVideo::create([
+            'user_id'  => $voice->user_id,
+            'voice_id' => $voice->id,
+            'status'   => 'processing',
+            'provider' => 'heygen',
+            'provider_response' => null,
+        ]);
 
         // 1) 動画生成リクエスト（v2 API）
         $res = Http::withHeaders([
