@@ -105,9 +105,7 @@
       <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-8">
         <div class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl hover:shadow-lg transition-shadow border-0 shadow-md p-6">
           <div class="flex flex-row items-center space-x-4 pb-4">
-            <div class="flex items-center justify-center w-16 h-16 rounded-full bg-gray-100">
-              <img src="./images/youtube.jpg">
-            </div>
+
             <div class="text-3xl font-bold">YouTube</div>
           </div>
           <div class="px-6 pt-4">
@@ -132,9 +130,7 @@
         </div>
         <div class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl hover:shadow-lg transition-shadow border-0 shadow-md p-6">
           <div class="flex flex-row items-center space-x-4 pb-4">
-            <div class="flex items-center justify-center w-16 h-16 rounded-full bg-gray-100">
-              <img src="./images/instagram.png">
-            </div>
+
             <div class="text-3xl font-bold">SNS</div>
           </div>
           <div class="px-6 pt-4">
@@ -159,12 +155,7 @@
         </div>
         <div class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl hover:shadow-lg transition-shadow border-0 shadow-md p-6">
           <div class="flex flex-row items-center space-x-4 pb-4">
-            <div class="flex items-center justify-center w-16 h-16 rounded-full bg-gray-100">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open h-16 w-16 text-green-600" aria-hidden="true">
-                <path d="M12 7v14"></path>
-                <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path>
-              </svg>
-            </div>
+
             <div class="text-3xl font-bold">教育コンテンツ</div>
           </div>
           <div class="px-6 pt-4">
@@ -211,11 +202,7 @@
   <div class="absolute inset-0 -z-10 opacity-30 blur-3xl bg-gradient-to-br from-yellow-100 via-white to-amber-200"></div>
 </div>
 
-      <div class="bg-blue-50 p-8 rounded-lg shadow-md mb-12 max-w-3xl mx-auto text-center">
-        <h4 class="text-3xl font-bold text-blue-700 mb-4">【まずは無料お試し】</h4>
-        <p class="text-lg text-gray-700 mb-6">最大5分のあべむつき動画が無料で作成できます</p>
-        <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shadow-xs h-10 rounded-md bg-blue-600 hover:bg-blue-700 text-lg px-8 py-4 text-white">無料でAIあべむつきを始める</button>
-      </div>
+
       <div class="bg-gray-50 p-8 rounded-lg shadow-md mb-12 max-w-3xl mx-auto">
         <h4 class="text-3xl font-bold text-gray-800 mb-4 text-center">【安心のプリペイド式（5,000円〜）】</h4>
         <p class="text-lg text-gray-700 mb-6 text-center">使う分だけクレジットを購入可能。料金は以下のとおり：</p>
@@ -231,6 +218,13 @@
             </svg><span class="font-bold">30,000円 = 200クレジット</span><span class="ml-2">（実質：100分分の動画生成が可能）</span></li>
         </ul>
       </div>
+
+      <div class="bg-blue-50 p-8 rounded-lg shadow-md mb-12 max-w-3xl mx-auto text-center">
+        <h4 class="text-3xl font-bold text-blue-700 mb-4">【まずは無料お試し】</h4>
+        <p class="text-lg text-gray-700 mb-6">最大5分のあべむつき動画が無料で作成できます</p>
+        <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shadow-xs h-10 rounded-md bg-blue-600 hover:bg-blue-700 text-lg px-8 py-4 text-white">無料でAIあべむつきを始める</button>
+      </div>
+
       <div class="bg-purple-50 p-8 rounded-lg shadow-md max-w-3xl mx-auto text-center">
         <h4 class="text-3xl font-bold text-purple-700 mb-4">【あべラボ参加でさらにお得】</h4>
         <p class="text-lg text-gray-700 mb-6">今なら期間限定で、オンラインサロン「あべラボ」に参加すると<br>毎月利用可能なクレジットを10分分プレゼント！</p>
