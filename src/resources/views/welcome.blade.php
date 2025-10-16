@@ -41,7 +41,7 @@
     <div class="max-w-4xl mx-auto">
       <div class="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl overflow-hidden shadow-2xl cursor-pointer group">
         <div class="aspect-video flex items-center justify-center">
-          <iframe width="100%" height="100%" src="https://www.youtube.com/embed/U7eGVdiU6SI" title="YouTubeデモ動画" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 12px;"></iframe>
+          <iframe width="100%" height="100%" src="https://www.youtube.com/embed/_pXfFY4Sgo0?si=17O96i9D7wQ7Ibpy" title="YouTubeデモ動画" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 12px;"></iframe>
         </div>
       </div>
     </div>
