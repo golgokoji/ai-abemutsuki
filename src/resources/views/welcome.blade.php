@@ -227,7 +227,7 @@
 
       <div class="bg-purple-50 p-8 rounded-lg shadow-md max-w-3xl mx-auto text-center">
         <h4 class="text-3xl font-bold text-purple-700 mb-4">【あべラボ参加でさらにお得】</h4>
-        <p class="text-lg text-gray-700 mb-6">今なら期間限定で、オンラインサロン「あべラボ」に参加すると<br>毎月利用可能なクレジットを10分分プレゼント！</p>
+        <p class="text-lg text-gray-700 mb-6">今なら期間限定で、オンラインサロン「あべラボ」に参加すると<br>毎月利用可能なクレジットを10分分（20クレジット）プレゼント！</p>
         <a href="https://abe-labo.biz/pages/landing/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shadow-xs h-10 rounded-md bg-purple-600 hover:bg-purple-700 text-lg px-8 py-4 mb-4 text-white">AIあべむつき特典付きあべラボの参加はこちらから</a>
         <p class="text-sm text-gray-600 mb-4">※ クレジット特典は上記ページからのお申し込み限定です。</p>
         <p class="text-lg text-gray-700">さらに！<br>あべラボ入会特典として、限定のあべむつきアバターも利用可能。</p>
