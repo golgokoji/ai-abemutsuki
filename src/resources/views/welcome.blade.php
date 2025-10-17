@@ -36,7 +36,7 @@
     <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">AIあべむつきで、動画制作の常識が変わる。あべむつきのリアルな声とアバターで、誰でも簡単にプロ品質の動画を生成。ビジネスからプライベートまで、あなたのアイデアを形に。</p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
       <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2 rounded-md text-lg font-medium h-10 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700">今すぐ無料で始める</a>
-      <a href="#demo" class="inline-flex items-center justify-center gap-2 rounded-md text-lg font-medium h-10 px-8 py-4 border-2 hover:bg-gray-50">デモを見る</a>
+      <!-- <a href="#demo" class="inline-flex items-center justify-center gap-2 rounded-md text-lg font-medium h-10 px-8 py-4 border-2 hover:bg-gray-50">デモを見る</a> -->
     </div>
     <div class="max-w-4xl mx-auto">
       <div class="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl overflow-hidden shadow-2xl cursor-pointer group">
