@@ -138,14 +138,31 @@ class HeygenSyncVideos extends Command
                     }
 
                     // ダウンロード（簡易実装: 一括取得）。大容量対応が必要ならstream化をご検討ください。
+                    // --- ストリーミングダウンロード＆S3アップロード（大容量対応） ---
+                    $tmpDir = storage_path('app/tmp');
+                    if (!is_dir($tmpDir)) {
+                        mkdir($tmpDir, 0775, true);
+                    }
+                    $tmpPath = $tmpDir . '/' . (($video->video_id ?? Str::random(16)) . '.mp4');
+                    $s3path  = 'videos/' . Str::random(16) . '.mp4';
+                    $publicUrl = null;
                     try {
-                        $binRes = Http::timeout(180)->get($videoUrl);
-                        if (!$binRes->ok()) {
-                            throw new \RuntimeException('download http '.$binRes->status());
+                        $resp = Http::withOptions([
+                            'stream'       => true,
+                            'sink'         => $tmpPath,
+                            'timeout'      => 0,
+                            'read_timeout' => 300,
+                        ])->get($videoUrl);
+                        if (!$resp->ok() || !file_exists($tmpPath) || filesize($tmpPath) === 0) {
+                            throw new \RuntimeException('download http ' . $resp->status() . ' or file missing: ' . $tmpPath);
                         }
-
-                        $s3path = 'videos/' . Str::random(16) . '.mp4';
-                        Storage::disk('s3')->put($s3path, $binRes->body(), ['ContentType' => 'video/mp4']);
+                        $contentType = $resp->header('Content-Type');
+                        if ($contentType && strpos($contentType, 'video') === false) {
+                            throw new \RuntimeException('unexpected content-type: ' . $contentType);
+                        }
+                        $stream = fopen($tmpPath, 'r');
+                        Storage::disk('s3')->put($s3path, $stream, ['ContentType' => 'video/mp4']);
+                        fclose($stream);
                         $publicUrl = Storage::disk('s3')->url($s3path);
 
                         $duration = data_get($data, 'data.duration');
@@ -183,7 +200,12 @@ class HeygenSyncVideos extends Command
                             'video_pk' => $video->id,
                             'video_id' => $video->video_id,
                             'error'    => $e->getMessage(),
+                            'tmpPath'  => $tmpPath,
                         ]);
+                    } finally {
+                        if (file_exists($tmpPath)) {
+                            @unlink($tmpPath);
+                        }
                     }
 
                     continue;

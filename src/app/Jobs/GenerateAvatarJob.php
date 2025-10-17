@@ -159,30 +159,65 @@ class GenerateAvatarJob implements ShouldQueue
             if ($status === 'completed') {
                 $videoUrl = $data['data']['video_url'] ?? ($data['data']['download_url'] ?? null);
                 if ($videoUrl) {
-                    // 動画をダウンロードしてS3に保存
-                    $bin = Http::get($videoUrl)->body();
+                    // --- ストリーミングダウンロード＆S3アップロード（大容量対応） ---
+                    $tmpDir = storage_path('app/tmp');
+                    if (!is_dir($tmpDir)) {
+                        mkdir($tmpDir, 0775, true);
+                    }
+                    $tmpPath = $tmpDir . '/' . (($video->video_id ?? bin2hex(random_bytes(8))) . '.mp4');
                     $random = bin2hex(random_bytes(8));
                     $s3path = "videos/{$random}.mp4";
-                    // Storage::disk('s3')->put($s3path, $bin, ['visibility' => 'public']);
-                    Storage::disk('s3')->put($s3path, $bin, [
-                        'ContentType' => 'video/mp4',
-                    ]);
-                    $publicUrl = rtrim(config('filesystems.disks.s3.url'), '/') . '/' . ltrim($s3path, '/');
-                    // 動画のduration取得（秒）
-                    $duration = $data['data']['duration'] ?? null;
-                    $video->update([
-                        'status' => 'succeeded',
-                        'file_url' => $publicUrl,
-                        'provider_response' => $data,
-                        'duration' => $duration,
-                    ]);
+                    $publicUrl = null;
+                    try {
+                        $resp = Http::withOptions([
+                            'stream'       => true,
+                            'sink'         => $tmpPath,
+                            'timeout'      => 0,
+                            'read_timeout' => 300,
+                        ])->get($videoUrl);
+                        if (!$resp->ok() || !file_exists($tmpPath) || filesize($tmpPath) === 0) {
+                            throw new \RuntimeException('download http ' . $resp->status() . ' or file missing: ' . $tmpPath);
+                        }
+                        $contentType = $resp->header('Content-Type');
+                        if ($contentType && strpos($contentType, 'video') === false) {
+                            throw new \RuntimeException('unexpected content-type: ' . $contentType);
+                        }
+                        $stream = fopen($tmpPath, 'r');
+                        Storage::disk('s3')->put($s3path, $stream, ['ContentType' => 'video/mp4']);
+                        fclose($stream);
+                        $publicUrl = rtrim(config('filesystems.disks.s3.url'), '/') . '/' . ltrim($s3path, '/');
+                        // 動画のduration取得（秒）
+                        $duration = $data['data']['duration'] ?? null;
+                        $video->update([
+                            'status' => 'succeeded',
+                            'file_url' => $publicUrl,
+                            'provider_response' => $data,
+                            'duration' => $duration,
+                        ]);
 
-                    // クレジット消費処理
-                    $user = $video->user;
-                    if ($duration && $user) {
-                        $user->consumeCreditForVideo((int)$duration, $video->id);
+                        // クレジット消費処理
+                        $user = $video->user;
+                        if ($duration && $user) {
+                            $user->consumeCreditForVideo((int)$duration, $video->id);
+                        }
+                        return;
+                    } catch (\Throwable $e) {
+                        Log::error('GenerateAvatarJob video streaming error', [
+                            'video_pk' => $video->id,
+                            'video_id' => $video->video_id,
+                            'error'    => $e->getMessage(),
+                            'tmpPath'  => $tmpPath,
+                        ]);
+                        $video->update([
+                            'status' => 'failed',
+                            'provider_response' => $data,
+                        ]);
+                        return;
+                    } finally {
+                        if (file_exists($tmpPath)) {
+                            @unlink($tmpPath);
+                        }
                     }
-                    return;
                 }
                 $video->update([
                     'status' => 'failed',
