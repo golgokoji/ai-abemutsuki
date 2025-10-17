@@ -148,30 +148,16 @@ class HeygenSyncVideos extends Command
                     $publicUrl = null;
                     try {
                         $resp = Http::withOptions([
-                            'stream'         => true,
+                            'sink'           => $tmpPath,
                             'timeout'        => 0,
                             'read_timeout'   => 300,
                             'allow_redirects'=> ['track_redirects' => true],
                         ])->get($videoUrl);
 
-                        $fh = @fopen($tmpPath, 'w');
-                        if (!$fh) {
-                            throw new \RuntimeException('cannot open tmp file for write: ' . $tmpPath);
-                        }
-                        try {
-                            foreach ($resp->stream() as $chunk) {
-                                if (isset($chunk->data) && $chunk->data !== '') {
-                                    fwrite($fh, $chunk->data);
-                                }
-                            }
-                        } finally {
-                            fclose($fh);
-                        }
-
-                        if (!file_exists($tmpPath) || filesize($tmpPath) === 0) {
+                        if (!$resp->ok() || !file_exists($tmpPath) || filesize($tmpPath) === 0) {
                             $status = $resp->status();
                             $redir  = $resp->header('X-Guzzle-Redirect-Count');
-                            throw new \RuntimeException('file missing or empty after stream: status=' . $status . ' path=' . $tmpPath . ' redirects=' . ($redir ?? 'n/a'));
+                            throw new \RuntimeException('file missing or empty after sink: status=' . $status . ' path=' . $tmpPath . ' redirects=' . ($redir ?? 'n/a'));
                         }
 
                         $stream = fopen($tmpPath, 'r');

@@ -159,7 +159,7 @@ class GenerateAvatarJob implements ShouldQueue
             if ($status === 'completed') {
                 $videoUrl = $data['data']['video_url'] ?? ($data['data']['download_url'] ?? null);
                 if ($videoUrl) {
-                    // --- ストリーミングダウンロード＆S3アップロード（大容量対応） ---
+                    // --- sinkによるダウンロード＆S3アップロード（大容量対応） ---
                     $tmpDir = storage_path('app/tmp');
                     if (!is_dir($tmpDir)) {
                         mkdir($tmpDir, 0775, true);
@@ -170,13 +170,13 @@ class GenerateAvatarJob implements ShouldQueue
                     $publicUrl = null;
                     try {
                         $resp = Http::withOptions([
-                            'stream'       => true,
-                            'sink'         => $tmpPath,
-                            'timeout'      => 0,
-                            'read_timeout' => 300,
+                            'sink'           => $tmpPath,
+                            'timeout'        => 0,
+                            'read_timeout'   => 300,
+                            'allow_redirects'=> ['track_redirects' => true],
                         ])->get($videoUrl);
                         if (!$resp->ok() || !file_exists($tmpPath) || filesize($tmpPath) === 0) {
-                            throw new \RuntimeException('download http ' . $resp->status() . ' or file missing: ' . $tmpPath);
+                            throw new \RuntimeException('file missing or empty after sink: status=' . $resp->status() . ' path=' . $tmpPath);
                         }
                         $contentType = $resp->header('Content-Type');
                         if ($contentType && strpos($contentType, 'video') === false) {
