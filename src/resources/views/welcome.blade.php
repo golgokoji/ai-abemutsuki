@@ -209,13 +209,13 @@
         <ul class="space-y-4 text-gray-800 text-lg">
           <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check h-6 w-6 text-green-500 mr-3 flex-shrink-0" aria-hidden="true">
               <path d="M20 6 9 17l-5-5"></path>
-            </svg><span class="font-bold">5,000円 = 20クレジット</span><span class="ml-2">（実質：10分分の動画生成が可能）</span></li>
+            </svg><span class="font-bold">5,000円 = 40クレジット</span><span class="ml-2">（実質：20分の動画生成が可能）</span></li>
           <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check h-6 w-6 text-green-500 mr-3 flex-shrink-0" aria-hidden="true">
               <path d="M20 6 9 17l-5-5"></path>
-            </svg><span class="font-bold">10,000円 = 50クレジット</span><span class="ml-2">（実質：25分分の動画生成が可能）</span></li>
+            </svg><span class="font-bold">10,000円 = 100クレジット</span><span class="ml-2">（実質：50分の動画生成が可能）</span></li>
           <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check h-6 w-6 text-green-500 mr-3 flex-shrink-0" aria-hidden="true">
               <path d="M20 6 9 17l-5-5"></path>
-            </svg><span class="font-bold">30,000円 = 200クレジット</span><span class="ml-2">（実質：100分分の動画生成が可能）</span></li>
+            </svg><span class="font-bold">30,000円 = 400クレジット</span><span class="ml-2">（実質：400分の動画生成が可能）</span></li>
         </ul>
       </div>
 

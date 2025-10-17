@@ -9,9 +9,9 @@
                 <label for="plan" class="block font-semibold mb-2">プラン選択</label>
                 <select id="plan" name="plan" class="w-full border rounded px-3 py-2">
                     <option value="" disabled selected>プランを選択してください</option>
-                    <option value="pd_yw68pieicewcio1k">20クレジット（5000円）／約10分</option>
-                    <option value="pd_zl1xbrox3fqgvjnx">50クレジット（10000円）／約25分</option>
-                    <option value="pd_ycozmxi27h0qekgb">200クレジット（30000円）／約100分</option>
+                    <option value="pd_yw68pieicewcio1k">40クレジット（5000円）／約20分</option>
+                    <option value="pd_zl1xbrox3fqgvjnx">100クレジット（10000円）／約50分</option>
+                    <option value="pd_ycozmxi27h0qekgb">400クレジット（30000円）／約200分</option>
                 </select>
             </div>
             <button type="submit" class="w-full py-3 px-4 rounded bg-indigo-600 text-white font-bold text-lg shadow hover:bg-indigo-700 transition">決済ページへ</button>
