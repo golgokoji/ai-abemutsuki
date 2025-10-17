@@ -12,6 +12,9 @@ class FishAudioService
     {
         $cfg      = config('fishaudio');
 
+        // 改行を全て空白に置換
+        $text = preg_replace('/\r?\n/', ' ', $text);
+
         $apiKey   = $cfg['api_key'] ?? '';
         $endpoint = rtrim($cfg['api_base'] ?? 'https://api.fish.audio', '/') . '/v1/tts';
 
