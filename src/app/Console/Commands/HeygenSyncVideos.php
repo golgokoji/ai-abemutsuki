@@ -138,32 +138,46 @@ class HeygenSyncVideos extends Command
                     }
 
                     // ダウンロード（簡易実装: 一括取得）。大容量対応が必要ならstream化をご検討ください。
-                    // --- ストリーミングダウンロード＆S3アップロード（大容量対応） ---
+                    // --- 完全ストリーミングダウンロード＆S3アップロード ---
                     $tmpDir = storage_path('app/tmp');
                     if (!is_dir($tmpDir)) {
-                        mkdir($tmpDir, 0775, true);
+                        @mkdir($tmpDir, 0775, true);
                     }
                     $tmpPath = $tmpDir . '/' . (($video->video_id ?? Str::random(16)) . '.mp4');
                     $s3path  = 'videos/' . Str::random(16) . '.mp4';
                     $publicUrl = null;
                     try {
                         $resp = Http::withOptions([
-                            'stream'       => true,
-                            'sink'         => $tmpPath,
-                            'timeout'      => 0,
-                            'read_timeout' => 300,
+                            'stream'         => true,
+                            'timeout'        => 0,
+                            'read_timeout'   => 300,
+                            'allow_redirects'=> ['track_redirects' => true],
                         ])->get($videoUrl);
-                        if (!$resp->ok() || !file_exists($tmpPath) || filesize($tmpPath) === 0) {
-                            throw new \RuntimeException('download http ' . $resp->status() . ' or file missing: ' . $tmpPath);
+
+                        $fh = @fopen($tmpPath, 'w');
+                        if (!$fh) {
+                            throw new \RuntimeException('cannot open tmp file for write: ' . $tmpPath);
                         }
-                        $contentType = $resp->header('Content-Type');
-                        if ($contentType && strpos($contentType, 'video') === false) {
-                            throw new \RuntimeException('unexpected content-type: ' . $contentType);
+                        try {
+                            foreach ($resp->stream() as $chunk) {
+                                if (isset($chunk->data) && $chunk->data !== '') {
+                                    fwrite($fh, $chunk->data);
+                                }
+                            }
+                        } finally {
+                            fclose($fh);
                         }
+
+                        if (!file_exists($tmpPath) || filesize($tmpPath) === 0) {
+                            $status = $resp->status();
+                            $redir  = $resp->header('X-Guzzle-Redirect-Count');
+                            throw new \RuntimeException('file missing or empty after stream: status=' . $status . ' path=' . $tmpPath . ' redirects=' . ($redir ?? 'n/a'));
+                        }
+
                         $stream = fopen($tmpPath, 'r');
                         Storage::disk('s3')->put($s3path, $stream, ['ContentType' => 'video/mp4']);
                         fclose($stream);
-                        $publicUrl = Storage::disk('s3')->url($s3path);
+                        $publicUrl = rtrim(config('filesystems.disks.s3.url'), '/') . '/' . ltrim($s3path, '/');
 
                         $duration = data_get($data, 'data.duration');
 
