@@ -87,7 +87,57 @@
                 <p>© 2025 AIあべむつき. All rights reserved.</p>
             </div>
         </div>
+
     </footer>
+
+{{-- In-App Browser Guard（login/register のみ有効） --}}
+@if (request()->routeIs('login', 'register'))
+<style>
+  #iab-guard{position:fixed;left:0;right:0;bottom:0;z-index:9999;background:#111;color:#fff;padding:12px 14px;box-shadow:0 -6px 16px rgba(0,0,0,.25);display:none}
+  #iab-guard .btn{display:inline-block;margin:6px 8px 0 0;padding:10px 14px;border-radius:10px;background:#fff;color:#111;font-weight:700;text-decoration:none}
+  #iab-guard .sub{font-size:12px;opacity:.85;margin-top:6px}
+</style>
+<div id="iab-guard" role="alert" aria-live="polite">
+  <div style="font-weight:700;margin-bottom:4px">Googleログインがブロックされました</div>
+  <div>アプリ内ブラウザではGoogleログインできません。通常のブラウザで開いてください。</div>
+  <div id="iab-actions"></div>
+  <div class="sub">
+    iPhone: 右上「…」→「Safariで開く」 / Android: 「Chromeで開く」
+  </div>
+</div>
+<script>
+(function(){
+  const ua = navigator.userAgent || "";
+  const isInApp = /Line\/|FBAN|FB_IAB|FBAV|Instagram|Twitter|WeChat|MicroMessenger/i.test(ua);
+  if(!isInApp) return;
+
+  const guard = document.getElementById('iab-guard');
+  const actions = document.getElementById('iab-actions');
+  const here = location.href;
+
+  // Android: Chrome で開く（intent://）
+  if(/Android/i.test(ua)){
+    const intent = 'intent://' + here.replace(/^https?:\/\//,'') +
+      '#Intent;scheme=https;package=com.android.chrome;end';
+    const a = document.createElement('a');
+    a.className='btn'; a.href=intent; a.textContent='Chromeで開く';
+    actions.appendChild(a);
+  }
+
+  // URLコピー（iOS/Android 共通）
+  const copyBtn = document.createElement('button');
+  copyBtn.className='btn'; copyBtn.textContent='URLをコピー';
+  copyBtn.onclick = async () => {
+    try { await navigator.clipboard.writeText(here); copyBtn.textContent='コピーしました'; }
+    catch(e){ alert('コピー不可。長押しでURLを選択してコピーしてください。'); }
+  };
+  actions.appendChild(copyBtn);
+
+  guard.style.display='block';
+})();
+</script>
+@endif
+
     </body>
 
 
