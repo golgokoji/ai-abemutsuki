@@ -123,7 +123,7 @@
       <div
         class="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl overflow-hidden shadow-2xl cursor-pointer group">
         <div class="aspect-video flex items-center justify-center">
-          <iframe width="100%" height="100%" src="https://www.youtube.com/embed/_pXfFY4Sgo0" title="YouTubeデモ動画"
+          <iframe width="100%" height="100%" src="https://www.youtube.com/embed/hNq2LtdgkYU" title="YouTubeデモ動画"
       frameborder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       allowfullscreen style="border-radius: 12px;"></iframe>
