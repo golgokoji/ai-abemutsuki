@@ -99,11 +99,9 @@
 </style>
 <div id="iab-guard" role="alert" aria-live="polite">
   <div style="font-weight:700;margin-bottom:4px">Googleログインがブロックされました</div>
-  <div>アプリ内ブラウザではGoogleログインできません。通常のブラウザで開いてください。</div>
+  <div>アプリ内ブラウザではGoogleログインできません。ページのURLをコピーして通常のブラウザで開いてください。</div>
   <div id="iab-actions"></div>
-  <div class="sub">
-    iPhone: 右上「…」→「Safariで開く」 / Android: 「Chromeで開く」
-  </div>
+
 </div>
 <script>
 (function(){
@@ -128,7 +126,7 @@
   const copyBtn = document.createElement('button');
   copyBtn.className='btn'; copyBtn.textContent='URLをコピー';
   copyBtn.onclick = async () => {
-    try { await navigator.clipboard.writeText(here); copyBtn.textContent='コピーしました'; }
+    try { await navigator.clipboard.writeText(here); copyBtn.textContent='URLをコピーしました'; }
     catch(e){ alert('コピー不可。長押しでURLを選択してコピーしてください。'); }
   };
   actions.appendChild(copyBtn);
