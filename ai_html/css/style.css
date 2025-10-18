@@ -151,15 +151,13 @@ abbr:where([title]) {
     text-decoration: underline dotted
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-size: inherit;
-    font-weight: inherit
+/* style.css の末尾に追記 */
+h1, h2, h3, h4, h5, h6 {
+  font-size: revert;
+  font-weight: revert;
+  line-height: normal;
 }
+
 
 a {
     color: inherit;
@@ -4774,3 +4772,88 @@ input:focus-visible+.\[input\:focus-visible\+\&\]\:ring-gray-950\/10 {
         --tw-ring-color: rgb(255 255 255 / .2)
     }
 }
+
+
+<style>
+  /* アニメーションの定義 */
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translateX(100px); /* はみ出し量に合わせて初期位置を調整 */
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* 画像に適用するスタイルとアニメーション */
+  .abe-photo-animation {
+    position: absolute;
+    bottom: 0;
+    right: -100px; /* ここを調整して枠からはみ出す量を決定 */
+    width: 300px; /* 横幅を300pxに固定 */
+    height: auto;
+    z-index: 9999; /* 確実に一番上に表示 */
+    animation: fadeInRight 1s ease-out forwards;
+
+    /* レスポンシブ対応 (md以下の画面サイズで適用) */
+    @media (max-width: 767px) {
+      position: static; /* 通常フローに戻す */
+      margin-top: 20px;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+      width: 200px; /* モバイルサイズ */
+      animation: none;
+      z-index: auto; 
+    }
+  }
+</style>
+
+
+<style>
+  /* ---------------------------------- */
+  /* アニメーションの定義 */
+  /* ---------------------------------- */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px); /* 30px下から開始 */
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ---------------------------------- */
+  /* カードに適用するスタイル */
+  /* ---------------------------------- */
+  .animate-card {
+    /* 初期状態は非表示（JavaScriptを使わないため、このCSSで初期非表示はしません） */
+    /* 代わりに、JSでクラスを切り替えることで表示を制御します */
+    opacity: 0; 
+  }
+
+  /* ---------------------------------- */
+  /* 外部ライブラリ（Intersection Observer）を使わない簡易的な方法 */
+  /* ---------------------------------- */
+  /* 複数のカードに遅延を適用するためのクラス */
+  .delay-1 {
+    animation-delay: 0.2s; /* 0.2秒遅延 */
+  }
+  .delay-2 {
+    animation-delay: 0.4s; /* 0.4秒遅延 */
+  }
+  .delay-3 {
+    animation-delay: 0.6s; /* 0.6秒遅延 */
+  }
+
+  /* アニメーションを強制的に適用する場合（常に表示） */
+  .animate-in-view {
+    animation: fadeInUp 0.8s ease-out forwards; /* 0.8秒かけて実行し、終了後の状態を維持 */
+  }
+</style>
+
+

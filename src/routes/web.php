@@ -147,6 +147,13 @@ Route::get('/law', function() {
 Route::get('/faq', function () {
     return view('faq');
 });
+// サポートページ
+
+Route::get('/support', function () {
+    return view('support');
+});
+
+
 /*
 |--------------------------------------------------------------------------
 | Breeze が生成する auth ルートを最後に読み込み
