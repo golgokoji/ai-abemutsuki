@@ -38,18 +38,34 @@
                                         音声: {{ optional(optional($vd->voice)->script)->title ?? '(無題)' }}
                                     </div>
 
-                                    <div class="flex gap-3 mt-2 justify-end">
+                                    <div class="flex gap-3 mt-2 justify-start">
                                         @php
                                             $playUrl = $vd->file_url
                                                 ?? $vd->public_url
                                                 ?? (!empty($vd->file_path) ? \Storage::url($vd->file_path) : null);
                                         @endphp
+
+                                        {{-- 音声テキスト表示ボタン --}}
+                                        @if(!empty($vd->voice) && !empty($vd->voice->script))
+                                            <button type="button" onclick="toggleVoiceText({{ $vd->id }})"
+                                                    class="px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-600 text-sm">
+                                                音声テキストを表示/非表示
+                                            </button>
+                                        @endif
+                                    </div>
+
+                                    <div id="voice-text-{{ $vd->id }}" class="hidden mt-2">
+                                        <textarea class="w-full p-2 border border-gray-300 rounded" rows="4" readonly>{{ $vd->voice->script->text ?? '' }}</textarea>
+                                    </div>
+
+                                    <div class="flex gap-3 mt-2 justify-end">
                                         @if($playUrl)
                                             <a href="{{ $playUrl }}" target="_blank"
                                                class="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm">
                                                 再生
                                             </a>
                                         @endif
+
                                         {{-- 削除ボタン --}}
                                         <form method="POST" action="{{ route('avatar_videos.destroy', $vd->id) }}" onsubmit="return confirm('本当に削除しますか？');">
                                             @csrf
@@ -69,4 +85,13 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function toggleVoiceText(id) {
+            const element = document.getElementById(`voice-text-${id}`);
+            if (element) {
+                element.classList.toggle('hidden');
+            }
+        }
+    </script>
 </x-app-layout>

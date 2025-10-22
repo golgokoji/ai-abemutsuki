@@ -86,6 +86,8 @@ class GenerateAvatarJob implements ShouldQueue
                     "type"        => "avatar",
                     "avatar_id"   => $avatarId,
                     "avatar_style" => "normal",
+                    "emotion"      => "neutral",   // 表情を穏やかに
+                    "gesture"      => "none",   // ← ここで手振りを抑える
                 ],
                 "voice" => [
                     "type"      => "audio",

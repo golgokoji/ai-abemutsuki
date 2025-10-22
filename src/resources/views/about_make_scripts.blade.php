@@ -138,6 +138,30 @@
             <p>このガイドに沿って台本を作成し、音声生成フォームに貼り付けるだけで、AIあべむつきの声でナレーションが作成できます。</p>
         </div>
 
+        <div class="py-6">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            音声が上手く作れないときは？
+        </h2>
+        <div class="mt-4 space-y-4">
+            <p>
+                英単語を上手く話してくれない場合は、単語をひらがなやカタカナで表記して音声AIが読みやすく整えてください。
+                <br>
+                例：
+                <ul class="list-disc pl-5">
+                    <li>ChatGPT ➔ チャットジーピーティー</li>
+                    <li>Sora2 ➔ ソラツー</li>
+                </ul>
+            </p>
+            <p>
+                日本語でも読みが不自然な場合、文章を変更するなどで自然な読みになるよう調整してください。
+                <br>
+                例：
+                <ul class="list-disc pl-5">
+                    <li>インターネット利用がより快適に！ ➔ インターネットの利用がより快適になります！</li>
+                </ul>
+            </p>
+        </div>
+        </div>
 
     </div>
     </div>
