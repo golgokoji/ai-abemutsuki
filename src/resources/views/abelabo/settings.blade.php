@@ -20,7 +20,7 @@
     </p>
 
     <div class="mt-8">
-        <a href="https://abe-labo.biz/pages/landing/" target="_blank" class="block px-4 py-3 rounded bg-blue-100 text-blue-800 font-semibold text-center hover:bg-blue-200">
+        <a href="https://abe-labo.biz/pages/landing/campaign.php" target="_blank" class="block px-4 py-3 rounded bg-blue-100 text-blue-800 font-semibold text-center hover:bg-blue-200">
             あべラボにまだ参加していない方はこちら
         </a>
     </div>

@@ -415,14 +415,14 @@
           <div class="w-24 h-1 bg-gradient-to-r from-amber-400 to-yellow-500 mx-auto mt-6 rounded-full"></div>
 
         </div>
-
+<!-- 
         <div
           class="bg-gray-50 py-12 px-4 sm:px-8 md:py-16 md:px-12 rounded-lg shadow-md mb-8 sm:mb-12 max-w-5xl mx-auto text-center">
           <h4 class="text-2xl sm:text-3xl font-bold text-blue-700 mb-3 sm:mb-4">【まずは無料お試し】</h4>
           <p class="text-base sm:text-lg text-gray-700 mb-5 sm:mb-6 px-2">最大5分のあべむつき動画が無料で作成できます</p>
           <button
             class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shadow-xs h-10 rounded-md bg-blue-600 hover:bg-blue-700 text-base sm:text-lg px-6 py-3 text-white">無料でAIあべむつきを始める</button>
-        </div>
+        </div> -->
         <div style="height:50px;"></div>
 
         <div class="bg-gray-50 py-16 px-8 md:py-20 md:px-12 rounded-lg shadow-md mb-12 max-w-5xl mx-auto text-center">
@@ -516,7 +516,7 @@
             </p>
             
           </div>
-                  <a href="https://abe-labo.biz/pages/landing/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shadow-xs h-10 rounded-md bg-purple-600 hover:bg-purple-700 text-lg px-8 py-4 mb-4 text-white">AIあべむつき特典付きあべラボの参加はこちらから</a>
+                  <a href="https://abe-labo.biz/pages/landing/campaign.php" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shadow-xs h-10 rounded-md bg-purple-600 hover:bg-purple-700 text-lg px-8 py-4 mb-4 text-white">AIあべむつき特典付きあべラボの参加はこちらから</a>
           <p class="text-sm text-gray-600 mb-4">※ クレジット特典は<br class="md:hidden">上記ページからのお申し込み限定です。</p>
           <!-- <p class="text-lg text-gray-700">
             <strong class="text-purple-600 font-bold text-5xl my-6 block">さらに！</strong>
@@ -578,7 +578,7 @@
             </p>
             <a href="{{ route('register') }}" class="inline-block bg-white text-blue-600 font-bold text-lg sm:text-xl px-8 sm:px-10 py-3 sm:py-4 rounded-full shadow-5lg 
 hover:bg-gray-100 transition duration-300 transform hover:scale-105 hover:shadow-2xl animate-float">
-              まずは無料お試し
+              まずは無料登録
               <svg class="w-5 h-5 ml-2 inline-block -mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3">
                 </path>
