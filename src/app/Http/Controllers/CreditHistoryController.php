@@ -9,8 +9,8 @@ class CreditHistoryController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $histories = CreditHistory::where('user_id', '>' ,0)
-        // $histories = CreditHistory::where('user_id', $user->id)
+        // $histories = CreditHistory::where('user_id', '>' ,0)
+        $histories = CreditHistory::where('user_id', $user->id)
             ->orderByDesc('granted_at')
             ->paginate(20);
         return view('credit_history', compact('histories'));
