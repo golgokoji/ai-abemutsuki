@@ -40,8 +40,8 @@ class CouponController extends Controller
 
                 \App\Models\CreditHistory::create([
                     'user_id'    => $user->id,
-                    'amount'     => $credit,
-                    'credit'     => $user->credit_balance,
+                    'amount'     => 0,
+                    'credit'     => $credit,
                     'system'     => 'coupon',
                     'granted_at' => now(),
                     'note'       => 'クーポンによるクレジット付与 code:' . $code,
