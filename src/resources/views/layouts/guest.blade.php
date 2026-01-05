@@ -13,9 +13,23 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
+        
+
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-M7BLLFKV');</script>
+<!-- End Google Tag Manager -->
+_    </head>
     
         <body class="bg-gradient-to-br from-blue-50 via-white to-purple-50 min-h-screen">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M7BLLFKV"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
             <header class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
                 <div class="container mx-auto px-4 py-4 flex justify-between items-center">
                     <div class="flex items-center space-x-2">
